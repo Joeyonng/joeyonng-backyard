@@ -1,0 +1,18 @@
+.dock-container {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+}
+
+.dock-item {
+  padding: 6px;
+}
+
+.dock-background {
+  background-color: #ccc;
+  opacity: 0.6;
+  border-radius: 4px 4px 0px 0px;
+  box-shadow: 1px 1px 50px 4px rgba(0, 0, 0, 0.8);
+}
