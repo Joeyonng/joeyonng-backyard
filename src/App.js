@@ -1,15 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
-
-import {Rnd} from "react-rnd";
-import Dock from './dock/osx-dock'
 import React from "react";
+
+import DockOSX from "./components/Dock"
+import MenuBar from "./components/MenuBar";
+import Desktop from "./components/Desktop";
+
+import "./App.scss";
 
 function App() {
   return (
     <div className="App">
-      <img src={logo} className="App-logo" alt="logo" />
-      <Dock />
+      <MenuBar/>
+      <Desktop/>
+      <DockOSX/>
     </div>
   );
 }

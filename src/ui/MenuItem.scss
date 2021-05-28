@@ -1,0 +1,51 @@
+@import "../style";
+
+.menu-divider {
+  height: 1px;
+  margin: $sSpacing;
+  box-sizing: border-box;
+
+  border-top: 1px solid $grey3;
+}
+
+.menu-item-icon {
+  width: $mSize;
+  height: $mSize;
+}
+
+.menu-item {
+  height: $lSize;
+
+  display: flex;
+  align-items: center;
+
+  border-radius: $sRadius $sRadius $sRadius $sRadius;
+  white-space: nowrap;
+
+  .menu-item-primary {
+    padding: 0 $sSpacing 0 $sSpacing;
+    margin: 0 $xlSpacing 0 0;
+    box-sizing: border-box;
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  .menu-item-secondary {
+    padding: 0 $sSpacing 0 $sSpacing;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &:hover {
+    color: #F0F0F0;
+
+    border-radius: $xsRadius $xsRadius $xsRadius $xsRadius;
+    background-color: $blue;
+  }
+}

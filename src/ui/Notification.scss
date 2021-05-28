@@ -1,0 +1,67 @@
+@import "../style";
+
+.notification {
+  // margin: $m-spacing 0 $m-spacing 0;  See Widgets.scss for why this is commented.
+  padding: $mSpacing;
+  box-sizing: border-box;
+
+  background-color: $grey6;
+  backdrop-filter: $blur;
+  border-radius: $mRadius;
+
+  .notification-close {
+    width: $xlSpacing;
+    height: $xlSpacing;
+    padding: 3px;
+    box-sizing: border-box;
+    position: fixed;
+    top: -$xlSpacing / 3;
+    left: -$xlSpacing / 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: $grey6;
+    border-radius: 100%;
+
+    &:active {
+      filter: brightness(90%);
+    }
+  }
+
+  .notification-header {
+    width: 100%;
+    height: $lSpacing;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+
+    font-weight: lighter;
+
+    .notification-header-icon {
+      width: $lSpacing;
+      height: $lSpacing;
+    }
+
+    .notification-header-title {
+      padding: 0 $sSpacing 0 $sSpacing;
+      flex: 1;
+    }
+  }
+
+  .notification-content {
+    margin: $sSpacing 0 0 0;
+    display: flex;
+    flex-direction: column;
+
+    .notification-content-primary {
+      font-weight: bold;
+    }
+
+    .notification-content-secondary {
+
+    }
+  }
+}

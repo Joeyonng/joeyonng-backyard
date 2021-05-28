@@ -1,0 +1,82 @@
+@import "../style";
+
+.dock-background {
+  width: 100%;
+  box-sizing: border-box;
+  position: absolute;
+
+  background-color: rgba($grey6, 0.6);
+  border-radius: $mRadius;
+  box-shadow: 1px 1px 50px 4px rgba($black, 0.8);
+}
+
+.dock-offset {
+  background: red;
+}
+
+.dock-item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .dock-item-popover {
+    margin: 0 0 $sSpacing 0;
+    padding: $sSpacing;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: visible;
+    text-align: center;
+
+    border-radius: $xsRadius;
+    background-color: rgba($grey6, 0.6);
+  }
+
+  .dock-item {
+    padding: 6px 5px 10px 5px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .dock-item-icon {
+      height: 100%;
+
+      &:active {
+        filter: brightness(60%);
+      }
+    }
+  }
+
+  .dock-item-indicator {
+    min-width: 6px;
+    min-height: 6px;
+    margin: 2px 0 0 0;
+
+    border-radius: 100%;
+    background-color: $black;
+  }
+}
+
+.dock {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.dock-container {
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+
+  z-index: $maxAppZIndex + 1;
+}
+
+.dock-background {
+}

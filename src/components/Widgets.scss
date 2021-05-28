@@ -1,0 +1,151 @@
+@import "../style";
+
+.widgets-background {
+  width: $widgetsWidth;
+  height: $widgetsHeight;
+  padding: $mSpacing;
+  box-sizing: border-box;
+  position: absolute;
+  top: $xlSpacing;
+  right: 0;
+  z-index: $maxAppZIndex + 1;
+
+  mask: linear-gradient(to right,
+          rgba($white, 0) 0%, rgba($white, 1) 15%,
+          rgba($white, 1) 85%, rgba($white, 0) 100%);
+  backdrop-filter: $blur;
+}
+
+.widgets-container {
+  width: $widgetsWidth;
+  height: $widgetsHeight;
+  padding: $mSpacing;
+  box-sizing: border-box;
+  position: absolute;
+  top: $xlSpacing;
+  right: 0;
+  z-index: $maxAppZIndex + 2;
+
+  mask: linear-gradient(to bottom,
+          rgba($white, 0) 0, rgba($white, 1) 12px,
+          rgba($white, 1) calc(#{$widgetsHeight} - #{$menuBarHeight}), rgba($white, 0) #{$widgetsHeight});
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  // Use below div instead of margin property in Notification.scss to solve a react-spring bug.
+  .notifications {
+    overflow: visible;
+
+    .notification-margin {
+      width: 100%;
+      height: $mSpacing;
+    }
+  }
+
+  .widgets {
+  }
+
+  .widgets-end {
+    height: $mSpacing;
+  }
+}
+
+.widget {
+  width: 100%;
+  margin: $mSpacing 0 0 0;
+
+  border-radius: $lRadius;
+}
+
+.title-widget {
+  height: 32px;
+  padding: 0 0 0 $lSpacing;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+
+  font-size: 24px;
+  font-weight: lighter;
+}
+
+.image-widget {
+  position: relative;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .widget-title {
+    position: absolute;
+
+    font-size: 16px;
+    font-weight: lighter;
+    color: white;
+  }
+}
+
+.grid-widget {
+  background-color: rgba($white, 1);
+
+  .widget-title {
+    width: 100%;
+    padding: $lSpacing 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: $lRadius $lRadius 0 0;
+
+    font-size: 16px;
+    font-weight: lighter;
+    text-align: center;
+  }
+
+  .widget-content {
+    width: 100%;
+    padding: $lSpacing 0 $lSpacing 0;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
+
+.list-widget {
+  background-color: rgba($white, 1);
+
+  .widget-title {
+    width: 100%;
+    padding: $lSpacing 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: $lRadius $lRadius 0 0;
+
+    font-size: 16px;
+    font-weight: lighter;
+    text-align: center;
+  }
+
+  .widget-content {
+    width: 100%;
+    padding: $lSpacing;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .divider {
+    width: 100%;
+    height: 2px;
+    margin: $mSpacing 0 $mSpacing 0;
+    box-sizing: border-box;
+
+    border-top: 1px solid #CCCCCC;
+  }
+}

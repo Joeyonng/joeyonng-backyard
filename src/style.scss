@@ -1,0 +1,47 @@
+$red: rgb(255, 59, 48);
+$pink: rgb(255, 45, 85);
+$orange: rgb(255, 149, 0);
+$yellow: rgb(255, 204, 0);
+$green: rgb(52, 199, 89);
+$teal: rgb(90, 200, 250);
+$blue: rgb(0, 122, 255);
+$indigo: rgb(88, 86, 214);
+$purple: rgb(175, 82, 222);
+$black: rgb(0, 0, 0);
+$white: rgb(255, 255, 255);
+
+$grey1: rgb(142, 142, 147);
+$grey2: rgb(174, 174, 178);
+$grey3: rgb(199, 199, 204);
+$grey4: rgb(209, 209, 214);
+$grey5: rgb(229, 229, 234);
+$grey6: rgb(242, 242, 247);
+
+$blur: blur(10px);
+
+$lRadius: 20px;
+$mRadius: 15px;
+$xmRadius: 12px;
+$sRadius: 10px;
+$xsRadius: 5px;
+
+$xlSpacing: 24px;
+$lSpacing: 18px;
+$mSpacing: 12px;
+$xmSpacing: 8px;
+$sSpacing: 6px;
+$xsSpacing: 4px;
+
+$lSize: 24px;
+$xlSize: 20px;
+$mSize: 16px;
+$sSize: 12px;
+$xsSize: 10px;
+
+$menuBarHeight: 24px;
+$dockHeight: 64px;
+$widgetsWidth: 329px;
+$widgetsHeight: calc(100vh - #{$menuBarHeight} - #{$dockHeight});
+
+$minAppZIndex: 0;
+$maxAppZIndex: 99999;

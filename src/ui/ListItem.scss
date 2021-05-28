@@ -1,0 +1,52 @@
+@import "../style";
+
+.list-item {
+  width: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .list-item-icon {
+    width: $xlSize * 2;
+    height: $xlSize * 2;
+    margin: $mSpacing;
+    box-sizing: border-box;
+  }
+
+  .list-item-main {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .primary {
+      color: black;
+      font-weight: lighter;
+      font-size: small;
+    }
+
+    .secondary {
+      color: grey;
+      font-weight: lighter;
+      font-size: small;
+    }
+  }
+
+  .list-item-tail {
+    margin: 0 0 0 $mSpacing;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+
+    color: black;
+    font-weight: lighter;
+    font-size: small;
+  }
+}
+

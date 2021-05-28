@@ -1,0 +1,69 @@
+@import "../style";
+
+.window {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  border: 1px solid $grey3;
+  border-radius: $sRadius;
+  background-color: $grey6;
+
+  cursor: default !important;
+
+  .title-bar {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    border-bottom: 1px solid $grey3;
+    border-radius: $sRadius $sRadius 0 0;
+
+    user-select: none;
+
+    .first-level {
+      width: 100%;
+      min-height: 36px;
+      padding: 0 $mSpacing 0 $mSpacing;
+      box-sizing: border-box;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      .first-level-lights {
+        position: fixed;
+        left: $mSpacing;
+      }
+    }
+
+    .second-level {
+      width: 100%;
+      min-height: 36px;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .window-content {
+    padding: 16px;
+    box-sizing: border-box;
+    position: relative;
+    flex-grow: 1;
+
+    overflow: auto;
+  }
+}
+
+.window-tab {
+  width: 100%;
+  height: 100%;
+}
