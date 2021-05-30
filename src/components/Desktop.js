@@ -1,42 +1,48 @@
-import React, {useRef} from "react";
+import React from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useWindowSize} from "react-use";
 
 import {closeApp, focusApp, minimizeApp} from "../redux";
+import Video from "../ui/Video";
 
-import apps from "../apps";
 import "./Desktop.scss";
-import cloudy from "../images/cloudy.mp4"
+import apps from "../apps";
+import backyardSunny from "../images/backyard-sunny.mp4"
+import backyardCloudy from "../images/backyard-cloudy.mp4";
+import backyardRain from "../images/backyard-rain.mp4";
 
 const menuHeight = 24;
 const dockHeight = 48;
+const weatherVideo = (weather) => {
+  switch (weather) {
+    case "Clear":
+      return backyardSunny;
+    case "Clouds":
+      return backyardCloudy;
+    case "Rain":
+      return backyardRain;
+    default:
+      return backyardRain;
+  }
+}
 
 function Desktop(props) {
   const reduxState = useSelector(state => state);
   const dispatch = useDispatch();
-  const videoRef = useRef(null);
   const {width, height} = useWindowSize();
-
-  if (videoRef.current !== null) {
-    videoRef.current.volume = reduxState.settings['-1'].volume;
-  }
 
   return (
     <div
       className="desktop"
     >
-      <video
-        ref={videoRef}
-        className="desktop-background"
-        autoPlay={true}
-        loop={true}
-        muted={reduxState.settings['-1'].volume === 0}
-      >
-        <source
-          src={cloudy}
-          type="video/mp4"
-        />
-      </video>
+      <div className="desktop-wallpaper"/>
+
+      <Video
+        className="desktop-weather"
+        video={weatherVideo(reduxState.settings['-1'].weather)}
+        show={reduxState.settings['-1'].background === 'weather'}
+        volume={reduxState.settings['-1'].volume}
+      />
 
       {Object.entries(reduxState.apps).map(([id, appState]) => React.createElement(apps[id].element, {
         key: appState.appId,

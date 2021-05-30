@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 
 import "./Buttons.scss"
+import * as style from "../style";
 
-const Button = React.forwardRef((props, ref) => {
+function Button(props) {
   return (
     <div
-      ref={ref}
       className="button"
       style={{
         ...props.style,
@@ -24,7 +24,26 @@ const Button = React.forwardRef((props, ref) => {
       }
     </div>
   )
-})
+}
+
+function ButtonIcon(props) {
+  return (
+    <div
+      className="button-icon"
+      style={{
+        background: props.checked ? style.rgba(style.blue, 1.0) : style.rgba(style.white, 1.0),
+      }}
+      onClick={props.onClick}
+      onMouseDown={() => {
+        if (props.onChange) props.onChange(!props.checked);
+        if (props.onMouseDown) props.onMouseDown();
+      }}
+      onMouseUp={props.onMouseUp}
+    >
+      {props.checked ? props.checkedIcon : props.icon}
+    </div>
+  )
+}
 
 function Buttons(props) {
   return (
@@ -46,4 +65,4 @@ function Buttons(props) {
   )
 }
 
-export {Button, Buttons};
+export {Button, ButtonIcon, Buttons};

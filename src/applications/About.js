@@ -1,5 +1,5 @@
 import React from "react";
-import ArrowRightSvg from "feather-icons/dist/icons/arrow-right.svg"
+import {ArrowRight} from "react-feather";
 
 import {WindowWithTabs, WindowTab} from "../ui/Windows";
 import ListItem from "../ui/ListItem";
@@ -127,54 +127,62 @@ function About(props) {
               </div>
             </div>
           </div>
-          <div style={{width: "90%"}}>
+          <div
+            style={{
+              width: "90%",
+              height: 480,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+            }}
+          >
             <ListItem
-              icon={<img src={ReactIcon} alt=""/>}
+              icon={<img src={ReactIcon} style={{height: 32, width: 32}} alt=""/>}
               primary="Framework:"
               secondary="Single-page-application (SPA) developed using React and Redux."
               tail={
                 <a href="https://reactjs.org/" target="_blank" rel="noreferrer">
-                  <Button><img src={ArrowRightSvg} alt=""/></Button>
+                  <Button><ArrowRight/></Button>
                 </a>
               }
             />
             <ListItem
-              icon={<img src={CreateReactAppIcon} alt=""/>}
+              icon={<img src={CreateReactAppIcon} style={{height: 32, width: 32}} alt=""/>}
               primary="Scaffolding:"
               secondary="This project was bootstrapped with Create React App."
               tail={
                 <a href="https://create-react-app.dev/" target="_blank" rel="noreferrer">
-                  <Button><img src={ArrowRightSvg} alt=""/></Button>
+                  <Button><ArrowRight/></Button>
                 </a>
               }
             />
             <ListItem
-              icon={<img src={ReactSpringIcon} alt=""/>}
+              icon={<img src={ReactSpringIcon} style={{height: 32, width: 32}} alt=""/>}
               primary="Animations:"
               secondary="Most is done using React Spring and others are vanilla CSS animations."
               tail={
                 <a href="https://create-react-app.dev/" target="_blank" rel="noreferrer">
-                  <Button><img src={ArrowRightSvg} alt=""/></Button>
+                  <Button><ArrowRight/></Button>
                 </a>
               }
             />
             <ListItem
-              icon={<img src={SassIcon} alt=""/>}
+              icon={<img src={SassIcon} style={{height: 32, width: 32}} alt=""/>}
               primary="Styling:"
               secondary="Static Sass and dynamic inline styles."
               tail={
                 <a href="https://sass-lang.com/" target="_blank" rel="noreferrer">
-                  <Button><img src={ArrowRightSvg} alt=""/></Button>
+                  <Button><ArrowRight/></Button>
                 </a>
               }
             />
             <ListItem
-              icon={<img src={FigmaIcon} alt=""/>}
+              icon={<img src={FigmaIcon} style={{height: 32, width: 32}} alt=""/>}
               primary="Design Reference:"
               secondary="This awesome Figma UI kit and my girlfriend's 2015 Macbook Air."
               tail={
                 <a href="https://www.figma.com/community/file/949158727443209284" target="_blank" rel="noreferrer">
-                  <Button><img src={ArrowRightSvg} alt=""/></Button>
+                  <Button><ArrowRight/></Button>
                 </a>
               }
             />

@@ -1,7 +1,5 @@
 import React, {useState} from "react";
-import XSvg from "feather-icons/dist/icons/x.svg";
-import MinusSvg from "feather-icons/dist/icons/minus.svg";
-import PlusSvg from "feather-icons/dist/icons/plus.svg";
+import {X, Minus, Plus} from "react-feather"
 
 import "./Lights.scss"
 
@@ -49,7 +47,7 @@ function Lights(props) {
           }
         }}
       >
-        <img src={XSvg} alt=""/>
+        <X/>
       </Light>
       <Light
         hover={state.hover}
@@ -62,7 +60,7 @@ function Lights(props) {
           }
         }}
       >
-        <img src={MinusSvg} alt=""/>
+        <Minus/>
       </Light>
       <Light
         hover={state.hover}
@@ -75,7 +73,7 @@ function Lights(props) {
           }
         }}
       >
-        <img src={PlusSvg} alt=""/>
+        <Plus/>
       </Light>
     </div>
   )

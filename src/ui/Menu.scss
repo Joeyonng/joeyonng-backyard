@@ -4,15 +4,15 @@
   padding: 6px 6px 6px 6px;
   position: fixed;
 
-  border: 1px rgba(0, 0, 0, 0.3) solid;
+  border: 1px rgba($black, 0.3) solid;
   border-radius: $xsRadius;
   backdrop-filter: $blur;
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 5px 70px 1px rgba(0, 0, 0, 0.2);
+  background-color: rgba($white, 0.7);
+  box-shadow: 0 5px 70px 1px rgba($black, 0.2);
 }
 
 .menu-button {
-  height: $lSize;
+  height: $xlSize;
   padding: 0 $mSpacing 0 $mSpacing;
   box-sizing: border-box;
   position: relative;

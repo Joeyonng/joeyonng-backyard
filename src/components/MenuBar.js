@@ -1,13 +1,12 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import CodeSvg from "feather-icons/dist/icons/code.svg"
-import GmailSvg from "simple-icons/icons/gmail.svg";
-import GithubSvg from "simple-icons/icons/github.svg"
+import {Code} from "react-feather"
+import {Gmail, Github} from "@icons-pack/react-simple-icons";
 
 import {changeSettings} from "../redux";
 import Widgets from "./Widgets";
-import Controls from "./Controls";
-import Weathers from "./Weathers";
+import Controls from "../menus/Controls";
+import Weathers from "../menus/Weathers";
 import {Buttons} from "../ui/Buttons";
 import {MenuButton} from "../ui/Menu";
 import {MenuItem} from "../ui/MenuItem";
@@ -32,19 +31,19 @@ function MenuBar(props) {
               settings: reduxState.settings[reduxState.focusedId],
             }, (
               <MenuButton
-                width={style.lSize}
-                title={<img src={CodeSvg} alt=""/>}
+                width={style.xlSize}
+                title={<Code/>}
               >
                 <MenuItem
                   primary="Visit my Github"
-                  secondary={<img src={GithubSvg} alt=""/>}
+                  secondary={<Github/>}
                   onClick={() => {
                     window.open("https://github.com/Joeyonng", '_blank');
                   }}
                 />
                 <MenuItem
                   primary="Contact me"
-                  secondary={<img src={GmailSvg} alt=""/>}
+                  secondary={<Gmail/>}
                   onClick={() => {
                     window.open("mailto:checkpppp@gmail.com", '_blank');
                   }}
@@ -58,6 +57,7 @@ function MenuBar(props) {
           <Buttons overlap={true} reverse={true}>
             <Widgets/>
             <Controls
+              background={reduxState.settings['-1'].background}
               volume={reduxState.settings['-1'].volume}
               onVolumeChange={(value) => {
                 dispatch(changeSettings('-1', {volume: value / 100}));

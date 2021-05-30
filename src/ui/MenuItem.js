@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react';
-import CheckSvg from "feather-icons/dist/icons/check.svg"
-import ChevronRightSvg from "feather-icons/dist/icons/chevron-right.svg"
+import {Check, ChevronRight} from "react-feather"
 
 import './MenuItem.scss';
 import {Popover} from "./Popover";
@@ -23,7 +22,7 @@ function MenuItem(props) {
       }}
     >
       {!props.indented ? null :
-        (!props.selected ? <div className="menu-item-icon"/> : <img className="menu-item-icon" src={CheckSvg} alt=""/>)
+        (!props.selected ? <div className="menu-item-icon"/> : <Check/>)
       }
       <div className="menu-item-primary">
         {props.primary}
@@ -59,7 +58,7 @@ function MenuItemWithSubMenu(props) {
     >
       <MenuItem
         primary={props.primary}
-        secondary={<img src={ChevronRightSvg} alt=""/>}
+        secondary={<ChevronRight/>}
         onMouseEnter={() => {
           setState({...state, open: true})
         }}

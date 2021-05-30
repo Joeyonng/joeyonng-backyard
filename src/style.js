@@ -32,8 +32,9 @@ export const xmSpacing =" 8px";
 export const sSpacing =" 6px";
 export const xsSpacing =" 4px";
 
-export const lSize = "24px";
-export const xlSize = "20px";
+export const xxlSize = "28px";
+export const xlSize = "24px";
+export const lSize = "20px";
 export const mSize = "16px";
 export const sSize = "12px";
 export const xsSize = "10px";
@@ -45,3 +46,8 @@ export const widgetsHeight = "calc(100vh  #{$menuBarHeight}  #{$dockHeight})";
 
 export const minAppZIndex = "0";
 export const maxAppZIndex = "99999";
+
+export const rgba = (rgb, opacity) => {
+  const numbers = rgb.match(/\d+/g);
+  return `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, ${opacity})`;
+}

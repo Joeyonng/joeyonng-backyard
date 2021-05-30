@@ -3,7 +3,7 @@ import React, {useState, useCallback} from "react";
 import "./Slider.scss"
 import * as style from "../style";
 
-const buttonSize = parseInt(style.xlSize, 10);
+const buttonSize = parseInt(style.lSize, 10);
 function Slider(props) {
   const [state, setState] = useState({
     sliderRef: null

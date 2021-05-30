@@ -10,10 +10,12 @@
   align-items: center;
 
   .list-item-icon {
-    width: $xlSize * 2;
-    height: $xlSize * 2;
-    margin: $mSpacing;
+    margin: 0 $mSpacing 0 0;
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .list-item-main {

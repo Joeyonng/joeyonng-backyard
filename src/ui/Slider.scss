@@ -1,11 +1,11 @@
 @import "../style";
 
 .slider-container {
-  height: $xlSize + 2;
+  height: $lSize + 2;
   position: relative;
 
   background-color: rgba($grey4, 1);
-  border-radius: $xlSize / 2 + 1;
+  border-radius: $lSize / 2 + 1;
 
   .slider {
     width: 100%;
@@ -20,8 +20,8 @@
     appearance: none;
 
     &::-webkit-slider-thumb {
-      width: $xlSize;
-      height: $xlSize;
+      width: $lSize;
+      height: $lSize;
       border: 1px solid rgba($grey4, 1);
       box-sizing: border-box;
 
@@ -33,13 +33,13 @@
   }
 
   .slider-fill {
-    height: $xlSize;
+    height: $lSize;
     position: absolute;
     top: 1px;
     left: 1px;
 
     background-color: rgba($white, 1);
-    border-radius: $xlSize / 2;
+    border-radius: $lSize / 2;
 
     pointer-events: none;
   }

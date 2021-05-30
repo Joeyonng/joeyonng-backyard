@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {AnchorPopover} from "./Popover";
 import {MenuItemGroupWithSelectors} from "./MenuItem";
 
+import * as style from "../style";
 import './Menu.scss';
 
 function Menu(props) {
@@ -26,14 +27,16 @@ function MenuButton(props) {
   return (
     <AnchorPopover
       open={props.open}
+      anchorStyle={{
+        left: props.left ? props.left : 0,
+      }}
       anchorDir="y"
       anchor={
         <div
           className="menu-button"
           style={{
             minWidth: props.width,
-            left: props.left ? props.left : 0,
-            backgroundColor: props.open ? "rgba(255, 255, 255, 0.75)" : "rgba(255, 255, 255, 0)",
+            backgroundColor: props.open ? style.rgba(style.white, 0.75) : style.rgba(style.white, 0),
             fontWeight: props.fontWeight ? props.fontWeight : "normal",
           }}
           onMouseOver={props.onMouseOver}

@@ -1,7 +1,7 @@
 @import "../style";
 
 .button {
-  height: $lSize;
+  height: $xlSize;
   padding: 0 $xmSpacing 0 $xmSpacing;
   box-sizing: border-box;
   position: relative;
@@ -16,11 +16,32 @@
 
   &:hover {
     border-radius: $xsRadius;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba($white, 0.75);
   }
 
   .button-content {
     height: $mSize;
+  }
+}
+
+.button-icon {
+  width: $mSize * 2;
+  height: $mSize * 2;
+  padding: $xmSpacing;
+  box-sizing: border-box;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  border-radius: 100%;
+  background-color: rgba($white, 1.0);
+
+  .button-content {
+    width: 100%;
+    height: 100%;
   }
 }
 

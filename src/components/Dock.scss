@@ -71,12 +71,9 @@
   width: 100vw;
   position: fixed;
   bottom: 0;
+  left: 0;
+  z-index: $maxAppZIndex + 1;
 
   display: flex;
   justify-content: center;
-
-  z-index: $maxAppZIndex + 1;
-}
-
-.dock-background {
 }

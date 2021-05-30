@@ -14,7 +14,7 @@ function AboutMenu(props) {
     <MenuButtonGroup>
       {props.children}
       <MenuButton
-        width={style.lSize}
+        width={style.xlSize}
         title={props.name}
         fontWeight="bold"
       >

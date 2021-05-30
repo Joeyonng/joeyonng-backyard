@@ -76,11 +76,18 @@ function AnchorPopover(props) {
 
   return (
     <div
+      className="anchorPopover"
       ref={anchorPopoverRef}
     >
-      {React.cloneElement(props.anchor, {
-        ref: anchorRef
-      })}
+      <div
+        ref={anchorRef}
+        className="anchor"
+        style={{
+          ...props.anchorStyle,
+        }}
+      >
+        {props.anchor}
+      </div>
 
       <Popover
         open={props.open}

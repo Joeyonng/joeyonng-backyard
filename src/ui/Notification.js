@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from "react-redux";
 import {useSpring, animated} from "react-spring";
-import XSvg from "feather-icons/dist/icons/x.svg";
+import {X} from "react-feather";
 
 import {closeNotification} from "../redux";
 
@@ -40,7 +40,7 @@ function Notification(props) {
           dispatch(closeNotification(props.notificationId))
         }}
       >
-        <img src={XSvg} alt=""/>
+        <X/>
       </animated.div>
 
 

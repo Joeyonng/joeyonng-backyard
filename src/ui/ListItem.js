@@ -6,9 +6,9 @@ function ListItem(props) {
   return (
     <div className="list-item">
       {props.icon === undefined ? null :
-        React.cloneElement(props.icon, {
-          className: "list-item-icon"
-        })
+        <div className="list-item-icon">
+          {props.icon}
+        </div>
       }
       <div className="list-item-main">
         <div className="primary">

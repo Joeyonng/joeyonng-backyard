@@ -1,17 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSelector} from "react-redux";
 import {useSpring, animated, useTransition} from "react-spring";
-import {ReactComponent as SiJavascript} from "simple-icons/icons/javascript.svg";
-import {ReactComponent as SiCss3} from "simple-icons/icons/css3.svg";
-import {ReactComponent as SiReact} from "simple-icons/icons/react.svg";
-import {ReactComponent as SiNodeDotJs} from "simple-icons/icons/node-dot-js.svg";
-import {ReactComponent as SiJava} from "simple-icons/icons/java.svg";
-import {ReactComponent as SiCplusplus} from "simple-icons/icons/cplusplus.svg";
-import {ReactComponent as SiAndroid} from "simple-icons/icons/android.svg";
-import {ReactComponent as SiPython} from "simple-icons/icons/python.svg";
-import {ReactComponent as SiPytorch} from "simple-icons/icons/pytorch.svg";
-import {ReactComponent as SiNumpy} from "simple-icons/icons/numpy.svg";
-import {ReactComponent as SiScikitLearn} from "simple-icons/icons/scikit-learn.svg";
+import {Javascript, CssThree, ReactJs,NodeDotJs, Java, Cplusplus, Android, Python, Pytorch, Numpy, ScikitLearn} from "@icons-pack/react-simple-icons"
 
 import Clock from "../ui/Clock";
 import Notification from "../ui/Notification";
@@ -78,7 +68,7 @@ function GridWidget(props) {
       </div>
 
       <div className="widget-content">
-        {React.Children.map(props.children, (item, index) => (
+        {React.Children.map(props.children, (item) => (
           item
         ))}
       </div>
@@ -150,7 +140,7 @@ function Widgets(props) {
       const ref = notificationsMap.get(item);
       await next({x: "0px", y: `${ref.offsetHeight}px`})
     },
-    leave: item => {
+    leave: () => {
       return {x: style.widgetsWidth, y: "0px"};
     },
   });
@@ -237,28 +227,28 @@ function Widgets(props) {
               size={gridIconSize}
               progress={0.9}
             >
-              <SiPython/>
+              <Python/>
             </CircularBar>
             <CircularBar
               label="PyTorch"
               size={gridIconSize}
               progress={0.75}
             >
-              <SiPytorch/>
+              <Pytorch/>
             </CircularBar>
             <CircularBar
               label="Numpy"
               size={gridIconSize}
               progress={0.8}
             >
-              <SiNumpy/>
+              <Numpy/>
             </CircularBar>
             <CircularBar
               label="Scikit-learn"
               size={gridIconSize}
               progress={0.85}
             >
-              <SiScikitLearn/>
+              <ScikitLearn/>
             </CircularBar>
           </GridWidget>
           <GridWidget
@@ -270,28 +260,28 @@ function Widgets(props) {
               size={gridIconSize}
               progress={0.9}
             >
-              <SiJavascript/>
+              <Javascript/>
             </CircularBar>
             <CircularBar
               label="CSS3"
               size={gridIconSize}
               progress={0.9}
             >
-              <SiCss3/>
+              <CssThree/>
             </CircularBar>
             <CircularBar
               label="React"
               size={gridIconSize}
               progress={0.9}
             >
-              <SiReact/>
+              <ReactJs/>
             </CircularBar>
             <CircularBar
               label="NodeJs"
               size={gridIconSize}
               progress={0.7}
             >
-              <SiNodeDotJs/>
+              <NodeDotJs/>
             </CircularBar>
           </GridWidget>
           <GridWidget
@@ -303,7 +293,7 @@ function Widgets(props) {
               size={gridIconSize}
               progress={0.7}
             >
-              <SiJava/>
+              <Java/>
             </CircularBar>
 
             <CircularBar
@@ -311,14 +301,14 @@ function Widgets(props) {
               size={gridIconSize}
               progress={0.3}
             >
-              <SiCplusplus/>
+              <Cplusplus/>
             </CircularBar>
             <CircularBar
               label="Android"
               size={gridIconSize}
               progress={0.4}
             >
-              <SiAndroid/>
+              <Android/>
             </CircularBar>
           </GridWidget>
 

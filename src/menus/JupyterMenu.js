@@ -16,7 +16,7 @@ function JupyterMenu(props) {
       {props.children}
 
       <MenuButton
-        width={style.lSize}
+        width={style.xlSize}
         title={props.name}
         fontWeight="bold"
       >
@@ -85,9 +85,12 @@ function JupyterMenu(props) {
               'auto': {
                 primary: 'Auto',
               },
-              'always': {
-                primary: 'Always',
+              'hide': {
+                primary: 'hide',
               },
+              'show': {
+                primary: 'show',
+              }
             }}
             onChange={(value, index) => {
               dispatch(changeSettings(props.appId, {
@@ -104,9 +107,15 @@ function JupyterMenu(props) {
               'auto': {
                 primary: 'Auto',
               },
-              'always': {
-                primary: 'Always',
+              'hide': {
+                primary: 'hide',
               },
+              'show': {
+                primary: 'show',
+              },
+              'scroll': {
+                primary: 'scroll',
+              }
             }}
             onChange={(value, index) => {
               dispatch(changeSettings(props.appId, {

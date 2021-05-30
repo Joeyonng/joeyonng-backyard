@@ -5,18 +5,33 @@
   min-height: 100vh;
   margin: 0 0 0 0;
   box-sizing: border-box;
-  position: absolute;
+  position: fixed;
   top: 0;
-  flex: 1;
+  left: 0;
   z-index: $minAppZIndex - 1;
 
-  .desktop-background {
+  .desktop-wallpaper {
     min-width: 100vw;
     min-height: 100vh;
+    margin: 0 0 0 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
 
     background-image: url("../images/macOS-Big-Sur-Vector-Wave-Wallpaper.jpg");
     background-position: center;
     background-size: cover;
     object-fit: cover;
+  }
+
+  .desktop-weather {
+    min-width: 100vw;
+    min-height: 100vh;
+    margin: 0 0 0 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
   }
 }

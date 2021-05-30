@@ -50,7 +50,8 @@ let defaultState = {
   settings: {
     '-1': {
       volume: 0,
-      weather: 'sun'
+      weather: 'sun',
+      background: 'wallpaper',
     },
     '0': {
 
