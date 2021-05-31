@@ -1,12 +1,11 @@
 # Joeyonng's Backyard
 
-This repository houses the Joeyonng's personal backyard and it is live on joeyonng.github.io.
+This repository houses the Joeyonng's personal backyard, and it is live on https://joeyonng.github.io/.
 
 As time goes by, I will throw more features, applications and maybe personal stories to my backyard.
 
 ## Why macOS Big Sur?
 
----
 In case you haven't noticed, this site is trying to mimic the UI of macOS Big Sur since I always appreciate the design
 of macOS.
 
@@ -18,7 +17,6 @@ frontend development while building this project.
 
 ## Development
 
----
 - Single-page-application (SPA) developed using [React](https://reactjs.org/) and [Redux](https://redux.js.org/).
 - This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 - Most of the animations are developed using [React Spring](https://react-spring.io/) and other simple ones are covered 
@@ -29,7 +27,6 @@ frontend development while building this project.
   
 ## Related Works
 
----
 If you liked the design of my backyard, please also checkout these awesome repositories which are very helpful.
 - The idea is heavily inspired by [winXP](https://github.com/ShizukuIchi/winXP), from which I learned how to switch 
   different Apps. 

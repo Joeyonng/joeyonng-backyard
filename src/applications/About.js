@@ -8,7 +8,7 @@ import {Button} from "../ui/Buttons";
 import "./About.scss";
 import * as style from "../style"
 import appStore from "../images/app-store.png";
-import BigSurIcon from "../images/big-sur-icon.png"
+import BigSurIcon from "../images/big-sur.png"
 import GeiselPencilTop from "../images/Geisel-pencil-top.png";
 import ReactIcon from "../images/react.svg";
 import CreateReactAppIcon from "../images/create-react-app.svg";

@@ -37,14 +37,6 @@ function JupyterMenu(props) {
       <MenuButton
         title="File"
       >
-        <input
-          ref={inputRef}
-          type="file"
-          style={{display: "none"}}
-          onChange={(e) => {
-            dispatch(changeSettings(1, {input: e.target.files[0]}))
-          }}
-        />
         <MenuItem
           primary={"Upload"}
           onClick={() => {
@@ -126,6 +118,15 @@ function JupyterMenu(props) {
           </MenuItemGroupWithSelectors>
         </MenuItemWithSubMenu>
       </MenuButton>
+
+      <input
+        ref={inputRef}
+        type="file"
+        style={{display: "none"}}
+        onChange={(e) => {
+          dispatch(changeSettings(1, {input: e.target.files[0]}))
+        }}
+      />
     </MenuButtonGroup>
   )
 }

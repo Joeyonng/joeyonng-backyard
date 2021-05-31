@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSelector} from "react-redux";
 import {useSpring, animated, useTransition} from "react-spring";
+import {Coffee, Smile} from "react-feather";
 import {Javascript, CssThree, ReactJs,NodeDotJs, Java, Cplusplus, Android, Python, Pytorch, Numpy, ScikitLearn} from "@icons-pack/react-simple-icons"
 
 import Clock from "../ui/Clock";
@@ -9,9 +10,9 @@ import {Button} from "../ui/Buttons";
 import {CircularBar} from "../ui/CircularBar";
 import ListItem from "../ui/ListItem";
 
-import apps from "../apps";
 import * as style from "../style";
 import './Widgets.scss';
+import apps from "../apps";
 import geiselSun from "../images/Geisel-sun.jpg";
 import geiselCloud from "../images/Geisel-cloud.jpg";
 
@@ -202,6 +203,21 @@ function Widgets(props) {
             transform: spring.translateX.to(x => `translateX(${x})`),
           }}
         >
+          <TitleWidget>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Smile/><div>Me</div><Coffee/>
+            </div>
+          </TitleWidget>
+
           <TitleWidget>Education</TitleWidget>
           <ImageWidget
             size="medium"
@@ -347,6 +363,7 @@ function Widgets(props) {
               tail="03/2019"
             />
           </ListWidget>
+
           <div className="widgets-end"/>
         </animated.div>
       </div>

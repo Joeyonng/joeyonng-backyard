@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import {Sun, Wind, Umbrella, Cloud, CloudRain, CloudDrizzle, CloudLightning, CloudSnow, CloudOff} from "react-feather";
 
-import {changeSettings} from "../redux";
+import {changeSettings, pushNotification} from "../redux";
 import {AnchorPopover} from "../ui/Popover";
 import {Button} from "../ui/Buttons";
 
@@ -76,7 +76,7 @@ function Weathers(props) {
                 const weather = parseOpenWeather(json)
                 setState(state => ({...state, weathers: weather}));
                 dispatch(changeSettings('-1', {weather: weather.weather}))
-                console.log('Weather received:', weather)
+                dispatch(pushNotification('-1', 'Weather Updated', `Current weather: ${weather.weather}`, false))
               })
               .catch(e => {
                 console.log(e)
