@@ -22,7 +22,7 @@ function MenuItem(props) {
       }}
     >
       {!props.indented ? null :
-        (!props.selected ? <div className="menu-item-icon"/> : <Check/>)
+        (!props.selected ? <div className="menu-item-icon"/> : <Check className="menu-item-icon"/>)
       }
       <div className="menu-item-primary">
         {props.primary}
