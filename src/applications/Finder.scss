@@ -1,0 +1,99 @@
+@import "../style";
+
+.finder-spinner {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.finder-container {
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+
+  background-color: rgba($white, 1.0);
+
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.finder-toolbar {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .finder-toolbar-title {
+    margin: 0 0 0 $space3;
+  }
+}
+
+.finder-sidebar {
+  padding: 0 $space4 0 $space4;
+  box-sizing: border-box;
+}
+
+.finder-column {
+  width: $columnWidth;
+  height: 100%;
+  padding: $space4;
+  box-sizing: border-box;
+
+  border-right: $border;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .finder-column-items {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.finder-detail {
+  width: 100%;
+  height: 100%;
+  padding: $space2;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .finder-detail-image {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .finder-detail-text {
+    width: 100%;
+    margin: $height4 0 $height4 0;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .finder-detail-text-title {
+      margin: $space4 0 0 0;
+      padding: 0 $space4 0 $space4;
+      box-sizing: border-box;
+
+      font-weight: $fontWeight5;
+    }
+  }
+}

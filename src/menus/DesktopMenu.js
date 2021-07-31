@@ -1,6 +1,6 @@
 import React from "react";
 
-import {MenuButtonGroup} from "../ui/Menu";
+import {MenuButtonGroup} from "../ui/MenuButton";
 
 function DesktopMenu(props) {
   return (

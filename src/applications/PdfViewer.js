@@ -3,9 +3,9 @@ import {useSelector, useDispatch} from "react-redux";
 import {Page} from 'react-pdf';
 import {Document} from 'react-pdf/dist/esm/entry.webpack';
 
-import {changeSettings} from "../redux";
+import {changeAppData} from "../redux";
 import {WindowBasic} from "../ui/Windows";
-import DropUploader from "../ui/DropUploader";
+import DragAndDrop from "../ui/DragAndDrop";
 
 const appId = 2;
 
@@ -27,10 +27,10 @@ function PdfViewer (props) {
       onMinimizeClick={props.onMinimizeClick}
       onMaximizeClick={props.onMaximizeClick}
     >
-      <DropUploader
+      <DragAndDrop
         text="Drop here to open"
         onFileDropped={(file) => {
-          dispatch(changeSettings(appId, {input: file}))
+          dispatch(changeAppData(appId, {input: file}))
         }}
       >
         <Document
@@ -46,7 +46,7 @@ function PdfViewer (props) {
             }}
           />
         </Document>
-      </DropUploader>
+      </DragAndDrop>
     </WindowBasic>
   )
 }

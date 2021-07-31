@@ -2,17 +2,16 @@ import React from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useWindowSize} from "react-use";
 
-import {closeApp, focusApp, minimizeApp} from "../redux";
+import {closeApp, focusApp, maximizeApp, minimizeApp, restoreApp} from "../redux";
 import Video from "../ui/Video";
 
+import * as style from "../style";
 import "./Desktop.scss";
 import apps from "../apps";
-import backyardSunny from "../images/backyard-sunny.mp4"
-import backyardCloudy from "../images/backyard-cloudy.mp4";
-import backyardRain from "../images/backyard-rain.mp4";
+import backyardSunny from "../media/videos/backyard-sunny.mp4"
+import backyardCloudy from "../media/videos/backyard-cloudy.mp4";
+import backyardRain from "../media/videos/backyard-rain.mp4";
 
-const menuHeight = 24;
-const dockHeight = 48;
 const weatherVideo = (weather) => {
   switch (weather) {
     case "Clear":
@@ -32,26 +31,46 @@ function Desktop(props) {
   const {width, height} = useWindowSize();
 
   return (
-    <div
-      className="desktop"
-    >
-      <div className="desktop-wallpaper"/>
+    <div className="desktop">
+      <div
+        onClick={() => {
+          dispatch(focusApp(-1))
+        }}
+      >
+        <div className="desktop-wallpaper"/>
 
-      <Video
-        className="desktop-weather"
-        video={weatherVideo(reduxState.settings['-1'].weather)}
-        show={reduxState.settings['-1'].background === 'weather'}
-        volume={reduxState.settings['-1'].volume}
-      />
+        <Video
+          className="desktop-weather"
+          video={weatherVideo(reduxState.settings['-1'].weather)}
+          show={reduxState.settings['-1'].background === 'weather'}
+          volume={reduxState.settings['-1'].volume}
+        />
+      </div>
 
       {Object.entries(reduxState.apps).map(([id, appState]) => React.createElement(apps[id].element, {
         key: appState.appId,
-        appId: id,
+        appId: appState.appId,
         name: apps[id].name,
         focus: appState.appId === reduxState.focusedId,
-        hidden: appState.minimized,
         zIndex: appState.zIndex,
-        border: {x0: 0, y0: menuHeight, x1: width, y1: height - menuHeight - dockHeight - 48},
+        border: {
+          x0: 0,
+          x1: width,
+          y0: style.rmPx(style.menuBarHeight),
+          y1: height - style.rmPx(style.dockHeight) - style.rmPx(style.menuBarHeight)},
+        data: appState.data,
+        windowState: appState.windowState,
+        onWindowStateChange: (windowState) => {
+          if (windowState === 'restore') {
+            dispatch(restoreApp(appState.appId))
+          }
+          else if (windowState === 'maximize') {
+            dispatch(maximizeApp(appState.appId))
+          }
+          else {
+            dispatch(minimizeApp(appState.appId))
+          }
+        },
         onFocus: () => {
           dispatch(focusApp(id))
         },
@@ -60,6 +79,9 @@ function Desktop(props) {
         },
         onMinimizeClick: () => {
           dispatch(minimizeApp(id))
+        },
+        onMaximizeClick: () => {
+          dispatch(maximizeApp(id))
         },
         settings: reduxState.settings[appState.appId],
       }))}

@@ -1,0 +1,48 @@
+@import "../style";
+
+.list {
+  padding: 0 $space4 0 $space4;
+}
+
+.dropdown-list {
+  display: flex;
+  flex-direction: column;
+
+  .dropdown-header {
+    height: $height6;
+    padding: 0 $space4 0 $space4;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    color: $grey1;
+
+    .dropdown-title {
+      flex: 1;
+
+      font-size: $font5;
+    }
+
+    .dropdown-tail {
+      margin: 0 0 0 $space2;
+      box-sizing: border-box;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .dropdown-content-container {
+    overflow: hidden;
+
+    .dropdown-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

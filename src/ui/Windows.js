@@ -1,52 +1,139 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect, forwardRef, useImperativeHandle} from "react";
+import {useMeasure, useWindowSize} from "react-use";
 import {useSpring, animated} from "react-spring";
 import {Rnd} from "react-rnd";
 
 import Lights from "./Lights";
-import Title from "./Title";
-import Tabs, {Tab} from "./Tabs";
 
+import * as style from "../style";
 import "./Windows.scss";
 
-function WindowBasic(props) {
-  const [state, setState] = useState({
-    x: props.initial.x,
-    y: props.initial.y,
-    w: props.initial.w,
-    h: props.initial.h,
-  })
-  let rndRef = useRef(null)
-
-  // const spring = useSpring({
-  //   x: props.hidden ? 1000 : state.x,
-  //   y: props.hidden ? 1000 : state.y,
-  //   w: props.hidden ? 64 : state.w,
-  //   h: props.hidden ? 64 : state.h
-  // })
-
+const Window = forwardRef((props, ref) => {
+  const {x, y, w, h, ...others} = props;
   return (
-      <Rnd
-        ref={rnd => {rndRef = rnd}}
-        style={{
-          display: props.hidden ? "none" : "inline-block",
-          zIndex: props.zIndex,
-        }}
-        size={!props.enableResizing ? undefined : {
-          width: state.w,
-          height: state.h,
-          // width: spring.w,
-          // height: spring.h,
-        }}
-        position={{
-          x: state.x,
-          y: state.y,
-          // x: spring.x,
-          // y: spring.y,
-        }}
-        onDrag={(e, d) => {
-          e.stopPropagation();
-        }}
-        onDragStop={(e, d) => {
+    <Rnd
+      ref={ref}
+      position={{x: props.x, y: props.y}}
+      // size={props.enableResizing ? {width: props.w, height: props.h} : undefined}
+      size={{width: props.w, height: props.h}}
+      {...others}
+    />
+  )
+});
+
+const AnimatedWindow = forwardRef((props, ref) => {
+  const {width, height} = useWindowSize();
+  const [innerMeasureRef, innerMeasure] = useMeasure();
+
+  const [state, setState] = useState({
+    hidden: false,
+  })
+  const [spring, springApi] = useSpring(() => ({
+    ...props.initial
+  }));
+
+  const normalState = useRef(null);
+  let prevWindowState = useRef(props.windowState);
+  useEffect(() => {
+    if (props.windowState && prevWindowState.current !== props.windowState) {
+      springApi.stop();
+      setState(state => ({...state, hidden: false}))
+
+      if (props.windowState === 2) {
+        springApi.start({
+          from: {
+            x: spring.x.get(),
+            y: spring.y.get(),
+            w: innerMeasure.width,
+            h: innerMeasure.height,
+          },
+          ...normalState.current,
+        });
+      }
+      else {
+        const toState = props.windowState === 1 ? {
+          x: width / 2,
+          y: height,
+          w: 0,
+          h: 0,
+        } : {
+          x: 0,
+          y: style.rmPx(style.menuBarHeight),
+          w: width,
+          h: height - style.rmPx(style.menuBarHeight) - style.rmPx(style.dockHeight),
+        };
+
+        normalState.current = {
+          x: spring.x.get(),
+          y: spring.y.get(),
+          w: innerMeasure.width,
+          h: innerMeasure.height,
+        };
+
+        springApi.start({
+          from: normalState.current,
+          ...toState,
+          onRest: () => {
+            setState(state => ({...state, hidden: props.windowState === 1}))
+          }
+        });
+      }
+    }
+    prevWindowState.current = props.windowState;
+  }, [props.windowState])
+
+  let rndRef = useRef(null);
+  let dragRef = useRef(null);
+  useEffect(() => {
+    if (ref) ref.current = rndRef.current
+  }, [ref, rndRef])
+
+  useImperativeHandle(ref, () => ({
+    animate: (to) => {
+      const from = {
+        x: spring.x.get(),
+        y: spring.y.get(),
+        w: innerMeasure.width,
+        h: innerMeasure.height,
+      }
+
+      springApi.start({
+        from: {...from},
+        ...from,
+        ...to,
+      });
+    },
+  }))
+
+  const AnimatedWindow = animated(Window);
+  return (
+    <AnimatedWindow
+      ref={rndRef}
+      className="window-frame"
+      style={{
+        display: state.hidden ? "none" : "inline-block",
+        zIndex: props.zIndex,
+        boxShadow: props.focus ? style.shadow1 : "none",
+      }}
+
+      x={spring.x}
+      h={spring.h}
+      w={spring.w}
+      y={spring.y}
+      border={props.border}
+
+      onMouseDown={() => {
+        if (props.onFocus !== undefined && !props.focus) props.onFocus();
+      }}
+      onDragStart={(e, d) => {
+        e.stopPropagation();
+
+        dragRef.current = {...dragRef.current, x: d.x, y: d.y};
+      }}
+      onDragStop={(e, d) => {
+        e.stopPropagation();
+
+        if (d.x - dragRef.current.x !== 0 || d.y - dragRef.current.y !== 0) {
           let x = d.x;
           let y = d.y;
           if (y < props.border.y0) {
@@ -56,64 +143,140 @@ function WindowBasic(props) {
             y = props.border.y1;
           }
 
-          rndRef.updatePosition({x: x, y: y});
-          setState({...state, x: x, y: y})
-        }}
-        onResize={(e, direction, ref, delta, position) => {
-          e.stopPropagation();
+          springApi.set({x: x, y: y});
+          if (rndRef.current) rndRef.current.updatePosition({x: x, y: y});
 
-          let x = position.x;
-          let y = position.y;
-          let w = ref.offsetWidth;
-          let h = ref.offsetHeight;
-          if (x < props.border.x0) {
-            w = w + x;
-            x = props.border.x0;
-          }
-          if ((x + w) > props.border.x1) {
-            w = props.border.x1 - x;
-          }
-          if (y < props.border.y0) {
-            h = h + y;
-            y = props.border.y0;
-          }
-          if ((y + h) > props.border.y1) {
-            h = props.border.y1 - y;
-          }
+          if (props.onWindowStateChange && props.enableResizing) props.onWindowStateChange('restore')
+        }
+      }}
+      onResize={(e, dir, ref, delta, position) => {
+        e.stopPropagation();
 
-          rndRef.updatePosition({x: x, y: y});
-          rndRef.updateSize({width: w, height: h});
-          setState({...state, x: x, y: y, w: w, h: h});
-        }}
-        onResizeStart={(e, direction, ref, delta, position) => {
-          if (props.onFocus !== undefined) props.onFocus();
-        }}
-        onMouseDown={() => {
-          if (props.onFocus !== undefined) props.onFocus();
-        }}
-        resizeHandleStyles={{
-          top: {"cursor": "s-resize"},
-          bottom: {"cursor": "s-resize"},
-          left: {"cursor": "w-resize"},
-          right: {"cursor": "w-resize"},
-        }}
-        cancel=".window-content"
-        enableResizing={props.enableResizing}
+        if (props.onFocus !== undefined && !props.focus) props.onFocus();
+
+        let x = position.x;
+        let y = position.y;
+        let w = ref.offsetWidth;
+        let h = ref.offsetHeight;
+        if (dir === 'left' && x < props.border.x0) {
+          w = w + x - props.border.x0;
+          x = props.border.x0;
+        }
+        if (dir === 'right' && (x + w) > props.border.x1) {
+          w = props.border.x1 - x;
+        }
+        if (dir === 'top' && y < props.border.y0) {
+          h = h + y - props.border.y0;
+          y = props.border.y0;
+        }
+        if (dir === 'bottom' && (y + h) > props.border.y1) {
+          h = props.border.y1 - y;
+        }
+
+        springApi.set({x: x, y: y, w: w, h: h});
+        if (rndRef.current) rndRef.current.updatePosition({x: x, y: y});
+        if (rndRef.current) rndRef.current.updateSize({width: w, height: h});
+
+        if (props.onWindowStateChange && props.enableResizing) props.onWindowStateChange('restore')
+      }}
+
+      resizeHandleStyles={{
+        top: {"cursor": "s-resize"},
+        bottom: {"cursor": "s-resize"},
+        left: {"cursor": "w-resize"},
+        right: {"cursor": "w-resize"},
+      }}
+      enableResizing={props.enableResizing}
+      cancel=".window-content"
+    >
+      <div
+        ref={innerMeasureRef}
+        className="window-inner"
       >
-        <animated.div
-          className="window"
+        {props.children}
+      </div>
+    </AnimatedWindow>
+  )
+});
+
+const TitleBarWindow = forwardRef((props, ref) => {
+  return (
+    <AnimatedWindow
+      ref={ref}
+      initial={props.initial}
+      zIndex={props.zIndex}
+      border={props.border}
+      focus={props.focus}
+      onFocus={props.onFocus}
+      enableResizing={props.enableResizing}
+      windowState={props.windowState}
+      onWindowStateChange={props.onWindowStateChange}
+    >
+      <div className="title-bar-window">
+        <div
+          className="title-bar"
           style={{
-            boxShadow: props.focus ? "0 22px 70px 4px rgba(0,0,0,0.56)" : "none",
+            filter: props.focus ? "none" : style.filterUnFocus,
+          }}
+          onDoubleClick={() => {
+            if (props.onWindowStateChange && props.enableResizing) props.onWindowStateChange('maximize');
           }}
         >
+          <div className="lights">
+            <Lights
+              focus={props.focus}
+              onCloseClick={props.onCloseClick}
+              onMinimizeClick={props.onMinimizeClick}
+              onMaximizeClick={props.onMaximizeClick}
+            />
+          </div>
+          <div>
+            {props.title}
+          </div>
+        </div>
+
+        <div
+          className="window-content"
+          style={{
+            backgroundColor: props.backgroundColor,
+          }}
+        >
+          {props.children}
+        </div>
+      </div>
+    </AnimatedWindow>
+  )
+});
+
+const SidebarWindow = forwardRef((props, ref) => {
+  return (
+    <AnimatedWindow
+      ref={ref}
+      initial={props.initial}
+      zIndex={props.zIndex}
+      border={props.border}
+      focus={props.focus}
+      onFocus={props.onFocus}
+      enableResizing={props.enableResizing}
+      windowState={props.windowState}
+      onWindowStateChange={props.onWindowStateChange}
+    >
+      <div className="sidebar-window">
+        {!props.sidebar ? null :
           <div
-            className="title-bar"
-            style={{
-              backgroundColor: props.focus ? "#FFFFFF" : "#F6F6F6",
+            className="sidebar"
+            style={props.focus ? {} :{
+              backgroundColor: style.white,
+              filter: props.focus ? "none" : style.filterUnFocus,
             }}
           >
-            <div className="first-level">
-              <div className="first-level-lights">
+            <div
+              className="left-toolbar"
+              onDoubleClick={() => {
+                if (props.onWindowStateChange && props.enableResizing) props.onWindowStateChange('maximize');
+              }}
+            >
+              <div className="lights">
                 <Lights
                   focus={props.focus}
                   onCloseClick={props.onCloseClick}
@@ -121,79 +284,144 @@ function WindowBasic(props) {
                   onMaximizeClick={props.onMaximizeClick}
                 />
               </div>
-              <Title>{props.firstTitle}</Title>
+
+              {props.sidebarToolbar}
             </div>
-            {props.secondTitle === undefined ? null :
-              <div className="second-level">
-                {props.secondTitle}
+
+            {props.sidebar}
+          </div>
+        }
+
+        <div className="non-sidebar">
+          <div
+            className="right-toolbar"
+            style={{
+              filter: props.focus ? "none" : style.filterUnFocus,
+            }}
+            onDoubleClick={() => {
+              if (props.onWindowStateChange && props.enableResizing) props.onWindowStateChange('maximize');
+            }}
+          >
+            {props.sidebar ? null :
+              <div className="lights">
+                <Lights
+                  focus={props.focus}
+                  onCloseClick={props.onCloseClick}
+                  onMinimizeClick={props.onMinimizeClick}
+                  onMaximizeClick={props.onMaximizeClick}
+                />
               </div>
             }
+
+            {props.toolbar}
           </div>
 
           <div
             className="window-content"
+            style={{
+              backgroundColor: props.backgroundColor,
+            }}
           >
             {props.children}
           </div>
-        </animated.div>
-      </Rnd>
+        </div>
+      </div>
+    </AnimatedWindow>
   )
-}
+});
 
-function WindowWithTabs(props) {
-  const [state, setState] = useState({
-    selected_index: 0,
-  });
+export {TitleBarWindow, SidebarWindow, AnimatedWindow};
 
-  const spring = useSpring({
-    width: props.children[state.selected_index].props.width,
-    height: props.children[state.selected_index].props.height,
-  });
-
-  return (
-    <WindowBasic
-      initial={props.initial}
-      enableResizing={false}
-      firstTitle={props.firstTitle}
-      secondTitle={
-        <Tabs onSelect={(label, index) => setState({...state, selected_index: index})}>
-          {React.Children.map(props.children, (children, index) => (
-            <Tab key={index} label={children.props.label}/>
-          ))}
-        </Tabs>
-      }
-      hidden={props.hidden}
-      focus={props.focus}
-      zIndex={props.zIndex}
-      border={props.border}
-      onFocus={props.onFocus}
-      onCloseClick={props.onCloseClick}
-      onMinimizeClick={props.onMinimizeClick}
-      onMaximizeClick={props.onMaximizeClick}
-    >
-      <animated.div
-        style={{
-          width: spring.width,
-          height: spring.height,
-        }}
-      >
-        {props.children[state.selected_index]}
-      </animated.div>
-    </WindowBasic>
-  )
-}
-
-function WindowTab(props) {
-  return (
-    <div
-      className="window-tab"
-      style={{
-        ...props.style,
-      }}
-    >
-      {props.children}
-    </div>
-  )
-}
-
-export {WindowBasic, WindowWithTabs, WindowTab};
+// function WindowBasic(props) {
+//   const [state, setState] = useState({
+//     x: props.initial.x,
+//     y: props.initial.y,
+//     w: props.initial.w,
+//     h: props.initial.h,
+//   })
+//   let rndRef = useRef(null);
+//   let dragRef = useRef(null);
+//
+//   return (
+//     <Rnd
+//       ref={rndRef}
+//       className="window-frame"
+//       style={{
+//         display: props.hidden ? "none" : "inline-block",
+//         zIndex: props.zIndex,
+//         boxShadow: props.focus ? style.shadow1 : "none",
+//       }}
+//       size={!props.enableResizing ? undefined : {
+//         width: state.w,
+//         height: state.h,
+//       }}
+//       position={{
+//         x: state.x,
+//         y: state.y,
+//       }}
+//       onResize={(e, dir, ref, delta, position) => {
+//         e.stopPropagation();
+//
+//         if (props.onFocus !== undefined && !props.focus) props.onFocus();
+//
+//         let x = position.x;
+//         let y = position.y;
+//         let w = ref.offsetWidth;
+//         let h = ref.offsetHeight;
+//         if (dir === 'left' && x < props.border.x0) {
+//           w = w + x - props.border.x0;
+//           x = props.border.x0;
+//         }
+//         if (dir === 'right' && (x + w) > props.border.x1) {
+//           w = props.border.x1 - x;
+//         }
+//         if (dir === 'top' && y < props.border.y0) {
+//           h = h + y - props.border.y0;
+//           y = props.border.y0;
+//         }
+//         if (dir === 'bottom' && (y + h) > props.border.y1) {
+//           h = props.border.y1 - y;
+//         }
+//
+//         setState({...state, x: x, y: y, w: w, h: h, maximized: false});
+//         if (rndRef.current) rndRef.current.updatePosition({x: x, y: y});
+//         if (rndRef.current) rndRef.current.updateSize({width: w, height: h});
+//       }}
+//       onDragStart={(e, d) => {
+//         e.stopPropagation();
+//
+//         dragRef.current = {...dragRef.current, x: d.x, y: d.y};
+//       }}
+//       onDragStop={(e, d) => {
+//         e.stopPropagation();
+//
+//         if (d.x - dragRef.current.x !== 0 || d.y - dragRef.current.y !== 0) {
+//           let x = d.x;
+//           let y = d.y;
+//           if (y < props.border.y0) {
+//             y = props.border.y0;
+//           }
+//           if (y > props.border.y1) {
+//             y = props.border.y1;
+//           }
+//
+//           setState({...state, x: x, y: y})
+//           if (rndRef.current) rndRef.current.updatePosition({x: x, y: y});
+//         }
+//       }}
+//       onMouseDown={() => {
+//         if (props.onFocus !== undefined) props.onFocus();
+//       }}
+//       resizeHandleStyles={{
+//         top: {"cursor": "s-resize"},
+//         bottom: {"cursor": "s-resize"},
+//         left: {"cursor": "w-resize"},
+//         right: {"cursor": "w-resize"},
+//       }}
+//       enableResizing={props.enableResizing}
+//       cancel=".window-content"
+//     >
+//       {props.children}
+//     </Rnd>
+//   )
+// }

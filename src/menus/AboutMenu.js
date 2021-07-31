@@ -2,8 +2,8 @@ import React from "react";
 import {useDispatch} from "react-redux";
 
 import {closeApp, minimizeApp} from "../redux";
-import {MenuButton, MenuButtonGroup} from "../ui/Menu";
-import {MenuItem} from "../ui/MenuItem";
+import {MenuButton, MenuButtonGroup} from "../ui/MenuButton";
+import {MenuItem} from "../ui/Menu";
 
 import * as style from "../style";
 
@@ -14,9 +14,9 @@ function AboutMenu(props) {
     <MenuButtonGroup>
       {props.children}
       <MenuButton
-        width={style.xlSize}
+        width={style.height7}
         title={props.name}
-        fontWeight="bold"
+        fontWeight={style.fontWeight4}
       >
         <MenuItem
           primary="Close"

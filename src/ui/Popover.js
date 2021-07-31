@@ -1,9 +1,10 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useWindowSize} from "react-use";
 
+import * as style from "../style";
 import "./Popover.scss"
 
-const SUBMENU_Y_OFFSET = 7;
+const SUBMENU_Y_OFFSET = style.rmPx(style.space7);
 
 function Popover(props) {
   const [state, setState] = useState({});

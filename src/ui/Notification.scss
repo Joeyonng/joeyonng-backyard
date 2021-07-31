@@ -1,63 +1,63 @@
 @import "../style";
 
 .notification {
-  // margin: $m-spacing 0 $m-spacing 0;  See Widgets.scss for why this is commented.
-  padding: $mSpacing;
+  // margin: $space3 0 $space3 0;  See Widgets.scss for why this is commented.
+  padding: $space3;
   box-sizing: border-box;
 
-  background-color: $grey6;
-  backdrop-filter: $blur;
-  border-radius: $mRadius;
+  border-radius: $radius2;
+  @include glassBackground();
 
   .notification-close {
-    width: $xlSpacing;
-    height: $xlSpacing;
-    padding: 3px;
+    width: $height7;
+    height: $height7;
+    padding: $space7;
     box-sizing: border-box;
     position: fixed;
-    top: -$xlSpacing / 3;
-    left: -$xlSpacing / 3;
+    top: -$height7 / 3;
+    left: -$height7 / 3;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background-color: $grey6;
+    background-color: $grey3;
     border-radius: 100%;
 
     &:active {
-      filter: brightness(90%);
+      filter: $filterDarken;
     }
   }
 
   .notification-header {
     width: 100%;
-    height: $lSpacing;
+    height: $space1;
     box-sizing: border-box;
 
     display: flex;
     align-items: center;
 
-    font-weight: lighter;
+    color: $grey1;
+    font-weight: $fontWeight4;
 
     .notification-header-icon {
-      width: $lSpacing;
-      height: $lSpacing;
+      width: $space1;
+      height: $space1;
     }
 
     .notification-header-title {
-      padding: 0 $sSpacing 0 $sSpacing;
+      padding: 0 $space6 0 $space6;
       flex: 1;
     }
   }
 
   .notification-content {
-    margin: $sSpacing 0 0 0;
+    margin: $space6 0 0 0;
     display: flex;
     flex-direction: column;
 
     .notification-content-primary {
-      font-weight: bold;
+      font-weight: $fontWeight5;
     }
 
     .notification-content-secondary {

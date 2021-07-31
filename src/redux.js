@@ -1,8 +1,12 @@
 // Action types
 const START_APP = 'START_APP';
 const CLOSE_APP = 'CLOSE_APP';
-const MINIMIZE_APP = 'MINIMIZE_APP';
 const FOCUS_APP = 'FOCUS_APP';
+const SWITCH_APP = 'SWITCH_APP';
+const RESTORE_APP = 'RESTORE_APP';
+const MINIMIZE_APP = 'MINIMIZE_APP';
+const MAXIMIZE_APP = 'MAXIMIZE_APP';
+const CHANGE_APP_DATA = 'CHANGE_APP_DATA';
 const CHANGE_SETTINGS = 'CHANGE_SETTINGS';
 const PUSH_NOTIFICATION = 'PUSH_NOTIFICATION';
 const CLOSE_NOTIFICATION = 'CLOSE_NOTIFICATION';
@@ -10,31 +14,47 @@ const CLOSE_NOTIFICATION = 'CLOSE_NOTIFICATION';
 // Actions
 const startApp = (appId) => ({
   type: START_APP,
-  payload: {appId}
+  payload: {appId},
 })
 const closeApp = (appId) => ({
   type: CLOSE_APP,
-  payload: {appId}
-})
-const minimizeApp = (appId) => ({
-  type: MINIMIZE_APP,
-  payload: {appId}
+  payload: {appId},
 })
 const focusApp = (appId) => ({
   type: FOCUS_APP,
-  payload: {appId}
+  payload: {appId},
+})
+const switchApp = (appId) => ({
+  type: SWITCH_APP,
+  payload: {appId},
+})
+const restoreApp = (appId) => ({
+  type: RESTORE_APP,
+  payload: {appId},
+})
+const minimizeApp = (appId) => ({
+  type: MINIMIZE_APP,
+  payload: {appId},
+})
+const maximizeApp = (appId) => ({
+  type: MAXIMIZE_APP,
+  payload: {appId},
+})
+const changeAppData = (appId, changes) => ({
+  type: CHANGE_APP_DATA,
+  payload: {appId, changes},
 })
 const changeSettings = (appId, changes) => ({
   type: CHANGE_SETTINGS,
-  payload: {appId, changes}
+  payload: {appId, changes},
 })
 const pushNotification = (appId, header, content, persistent) => ({
   type: PUSH_NOTIFICATION,
-  payload: {appId, header, content, persistent}
+  payload: {appId, header, content, persistent},
 })
 const closeNotification = (notificationId) => ({
   type: CLOSE_NOTIFICATION,
-  payload: {notificationId}
+  payload: {notificationId},
 })
 
 // Reducers
@@ -42,9 +62,10 @@ let defaultState = {
   focusedId: '-1',
   apps: {
     '0': {
+      data: {},
       appId: '0',
-      minimized: false,
       zIndex: 0,
+      windowState: 0,
     },
   },
   settings: {
@@ -53,15 +74,11 @@ let defaultState = {
       weather: 'sun',
       background: 'wallpaper',
     },
-    '0': {
-
-    },
-    '1': {
-      input: null,
+    '2': {
       mediaAlign: 'center',
       displaySource: 'auto',
       displayOutput: 'auto',
-    }
+    },
   },
   notifications: {
   },
@@ -73,7 +90,7 @@ const getFocusId = (apps) => {
   let focusedId = -1;
   const appsArray = Object.values(apps);
   if (appsArray.length !== 0) {
-    const app = appsArray.sort((a, b) => b.zIndex - a.zIndex).find(app => !app.minimized);
+    const app = appsArray.sort((a, b) => b.zIndex - a.zIndex).find(app => app.windowState !== 1);
     if (app !== undefined) focusedId = app.appId;
   }
   return String(focusedId);
@@ -84,22 +101,11 @@ function reducer(state=defaultState, action) {
     case START_APP: {
       const {appId} = action.payload;
 
-      return {
-        ...state,
-        focusedId: appId,
-        apps: {
-          ...state.apps,
-          [appId]: {
-            ...state.apps[appId],
-            appId: appId,
-            minimized: false,
-            zIndex: nextZIndex++,
-          }
-        }
+      if (state.apps[appId]) {
+        return {
+          ...state
+        };
       }
-    }
-    case FOCUS_APP: {
-      const {appId} = action.payload;
 
       return {
         ...state,
@@ -108,14 +114,22 @@ function reducer(state=defaultState, action) {
           ...state.apps,
           [appId]: {
             ...state.apps[appId],
-            minimized: false,
+            data: {},
+            appId: appId,
             zIndex: nextZIndex++,
+            windowState: 0,
           }
-        },
-      };
+        }
+      }
     }
     case CLOSE_APP: {
       const {appId} = action.payload;
+
+      if (!state.apps[appId]) {
+        return {
+          ...state
+        };
+      }
 
       let newApps = {...state.apps};
       delete newApps[appId];
@@ -133,7 +147,42 @@ function reducer(state=defaultState, action) {
         },
       };
     }
-    case MINIMIZE_APP: {
+    case FOCUS_APP: {
+      const {appId} = action.payload;
+
+      if (!state.apps[appId]) {
+        return {
+          ...state,
+          focusedId: -1,
+        }
+      }
+
+      return {
+        ...state,
+        focusedId: appId,
+        apps: {
+          ...state.apps,
+          [appId]: {
+            ...state.apps[appId],
+            zIndex: nextZIndex++,
+          }
+        },
+      };
+    }
+    case SWITCH_APP: {
+      const {appId} = action.payload;
+
+      if (!state.apps[appId]) {
+        return reducer(state, startApp(appId));
+      }
+      else if(state.apps[appId].windowState !== 1) {
+        return reducer(state, focusApp(appId));
+      }
+      else {
+        return reducer(state, minimizeApp(appId));
+      }
+    }
+    case RESTORE_APP: {
       const {appId} = action.payload;
 
       return {
@@ -142,10 +191,57 @@ function reducer(state=defaultState, action) {
           ...state.apps,
           [appId]: {
             ...state.apps[appId],
-            minimized: true,
+            windowState: 0,
           },
         },
       };
+    }
+    case MINIMIZE_APP: {
+      const {appId} = action.payload;
+
+      return {
+        ...state,
+        focusedId: appId,
+        apps: {
+          ...state.apps,
+          [appId]: {
+            ...state.apps[appId],
+            zIndex: nextZIndex++,
+            windowState: state.apps[appId].windowState === 1 ? 2 : 1,
+          },
+        },
+      };
+    }
+    case MAXIMIZE_APP: {
+      const {appId} = action.payload;
+
+      return {
+        ...state,
+        apps: {
+          ...state.apps,
+          [appId]: {
+            ...state.apps[appId],
+            windowState: state.apps[appId].windowState === 3 ? 2 : 3,
+          },
+        },
+      };
+    }
+    case CHANGE_APP_DATA: {
+      const {appId, changes} = action.payload;
+
+      return {
+        ...state,
+        apps: {
+          ...state.apps,
+          [appId]: {
+            ...state.apps[appId],
+            data: {
+              ...state.apps[appId].data,
+              ...changes,
+            }
+          }
+        }
+      }
     }
     case CHANGE_SETTINGS: {
       const {appId, changes} = action.payload;
@@ -199,7 +295,7 @@ function reducer(state=defaultState, action) {
 
 export {
   reducer,
-  startApp, closeApp, focusApp, minimizeApp,
-  changeSettings,
-  pushNotification, closeNotification
+  startApp, closeApp, focusApp, switchApp,
+  minimizeApp, maximizeApp, restoreApp,
+  changeAppData, changeSettings, pushNotification, closeNotification
 };

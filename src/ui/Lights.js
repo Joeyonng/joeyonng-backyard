@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {X, Minus, Plus} from "react-feather"
 
+import * as style from "../style";
 import "./Lights.scss"
 
 function Light(props) {
@@ -8,7 +9,7 @@ function Light(props) {
     <button
       className="traffic-light"
       style={{
-        backgroundColor: props.hover ? props.color : (props.focus ? props.color : "#ddd"),
+        backgroundColor: props.hover ? props.color : (props.focus ? props.color : style.grey2),
       }}
       onClick={(event) => {
         if (props.onClick !== undefined) props.onClick(event);
@@ -39,7 +40,7 @@ function Lights(props) {
       <Light
         hover={state.hover}
         focus={props.focus}
-        color="#FF5E57"
+        color={style.red}
         onClick={(event) => {
           if (props.onCloseClick !== undefined) {
             event.stopPropagation()
@@ -52,7 +53,7 @@ function Lights(props) {
       <Light
         hover={state.hover}
         focus={props.focus}
-        color="#FFBB2E"
+        color={style.yellow}
         onClick={(event) => {
           if (props.onMinimizeClick !== undefined) {
             event.stopPropagation()
@@ -65,7 +66,7 @@ function Lights(props) {
       <Light
         hover={state.hover}
         focus={props.focus}
-        color="#38C149"
+        color={style.green}
         onClick={(event) => {
           if (props.onMaximizeClick	 !== undefined) {
             event.stopPropagation()

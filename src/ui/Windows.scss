@@ -1,50 +1,93 @@
 @import "../style";
 
-.window {
+.window-frame {
+  border-radius: $radius2;
+
+  cursor: default !important;
+  overflow: hidden;
+
+  .window-inner {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.title-bar-window {
   width: 100%;
   height: 100%;
 
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-
-  border: 1px solid $grey3;
-  border-radius: $sRadius;
-  background-color: $grey6;
-
-  cursor: default !important;
 
   .title-bar {
     width: 100%;
+    min-height: $titleBarHeight;
+    padding: 0 $space1 0 $space1;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    border-bottom: $border;
+    background-color: white;
+
+    user-select: none;
+  }
+}
+
+.sidebar-window {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+
+  .sidebar {
+    width: fit-content;
+    max-width: 50%;
+    height: 100%;
 
     display: flex;
     flex-direction: column;
 
-    border-bottom: 1px solid $grey3;
-    border-radius: $sRadius $sRadius 0 0;
+    border-right: $border;
+    @include glassBackground();
 
-    user-select: none;
+    overflow: hidden;
 
-    .first-level {
+    .left-toolbar {
       width: 100%;
-      min-height: 36px;
-      padding: 0 $mSpacing 0 $mSpacing;
+      height: $toolbarHeight;
+      padding: 0 $space1 0 $space1;
       box-sizing: border-box;
 
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
-
-      .first-level-lights {
-        position: fixed;
-        left: $mSpacing;
-      }
     }
+  }
 
-    .second-level {
+  .non-sidebar {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: auto;
+
+    .right-toolbar {
       width: 100%;
-      min-height: 36px;
+      height: $toolbarHeight;
+      padding: 0 $space1 0 $space1;
+      box-sizing: border-box;
+
+      border-bottom: $border;
+      background-color: white;
 
       display: flex;
       flex-direction: row;
@@ -52,18 +95,14 @@
       align-items: center;
     }
   }
-
-  .window-content {
-    padding: 16px;
-    box-sizing: border-box;
-    position: relative;
-    flex-grow: 1;
-
-    overflow: auto;
-  }
 }
 
-.window-tab {
-  width: 100%;
-  height: 100%;
+.lights {
+  position: fixed;
+  left: $space1;
+}
+
+.window-content {
+  flex: 1;
+  overflow: auto;
 }

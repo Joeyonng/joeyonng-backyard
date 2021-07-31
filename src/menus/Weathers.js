@@ -5,9 +5,9 @@ import {Sun, Wind, Umbrella, Cloud, CloudRain, CloudDrizzle, CloudLightning, Clo
 import {changeSettings, pushNotification} from "../redux";
 import {AnchorPopover} from "../ui/Popover";
 import {Button} from "../ui/Buttons";
+import {Spinner} from "../ui/Spinner";
 
 import "./Weathers.scss";
-import Spinner from "../ui/Spinner";
 import {openWeatherAPIKey} from "../keys";
 
 const zipCode = '92056'
@@ -67,6 +67,7 @@ function Weathers(props) {
       anchorDir="y"
       anchor={
         <Button
+          size="medium"
           onClick={() => {
             setState({...state, open: true})
 

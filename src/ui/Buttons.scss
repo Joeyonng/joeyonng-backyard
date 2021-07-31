@@ -1,33 +1,46 @@
 @import "../style";
 
 .button {
-  height: $xlSize;
-  padding: 0 $xmSpacing 0 $xmSpacing;
+  padding: 0 $space4 0 $space4;
   box-sizing: border-box;
-  position: relative;
 
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
 
-  white-space: nowrap;
-  transition: 0.3s;
+  border-radius: $radius3;
 
-  &:hover {
-    border-radius: $xsRadius;
-    background-color: rgba($white, 0.75);
-  }
+  white-space: nowrap;
 
   .button-content {
-    height: $mSize;
+    height: $height10;
   }
 }
 
-.button-icon {
-  width: $mSize * 2;
-  height: $mSize * 2;
-  padding: $xmSpacing;
+.toolbar-button {
+  padding: $space7 $space6 $space7 $space6;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  border-radius: $radius3;
+
+  white-space: nowrap;
+
+  .button-content {
+    width: $height7;
+    height: $height7;
+  }
+}
+
+.icon-button {
+  width: $height6;
+  height: $height6;
+  padding: $space6;
   box-sizing: border-box;
   position: relative;
 

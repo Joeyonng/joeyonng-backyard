@@ -1,30 +1,28 @@
-import React, {Fragment, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useSpring, animated} from "react-spring";
 
 import apps from "../apps";
-import {startApp} from "../redux";
+import {minimizeApp, startApp, switchApp} from "../redux";
+import Tooltip from "../ui/Tooltip";
 
+import * as style from "../style";
 import "./Dock.scss"
 
 function DockOffset(props) {
   return(
     <animated.div
       className="dock-offset"
-      style={
-        Object.assign({
-          width: props.width,
-          height: props.height,
-          opacity: props.debug ? 0.5 : 0,
-        }, (() => {
-          switch (props.magnifyDirection) {
-            case "up": return { alignSelf: "end", };
-            case "down": return { alignSelf: "start", };
-            case "center": return { alignSelf: "center", };
-            default: return {};
-          }
-        })())
-      }
+      style={{
+        width: props.width,
+        height: props.height,
+        opacity: props.debug ? 0.5 : 0,
+        ...{
+          'up': {alignItems: 'end'},
+          'down': {alignItems: 'start'},
+          'center': {alignItems: 'center'}
+        }[props.magnifyDirection]
+      }}
     />
   )
 }
@@ -33,35 +31,32 @@ function DockItem(props) {
   const [state, setState] = useState({
     hover: false,
   });
-  const spring = useSpring({
-    from: {y: 0},
+  const [spring, springApi] = useSpring(() => ({
     y: 1,
     config: {duration: 1800},
-  });
+  }));
 
   return (
     <div
       className="dock-item-container"
-      style={{
-      }}
       onMouseEnter={() => {
         setState({...state, hover: true})
       }}
-      onMouseLeave={() => {
+      onMouseLeave = {() => {
         setState({...state, hover: false})
       }}
     >
       <animated.div
         className="dock-item-popover"
         style={{
-          display: state.hover ? "flex" : "none",
+          display: state.hover ? "initial" : "none",
           transform: spring.y.to({
-            range: [0, 0.5, 1],
-            output: [0, -50, 0]
+            range: [0, 0.166, 0.333, 0.499, 0.665, 0.831, 1],
+            output: [0, -50, 0, -50, 0, -50, 0]
           }).to(y => `translateY(${y}px)`),
         }}
       >
-        {props.name}
+        <Tooltip text={props.name}/>
       </animated.div>
 
       <animated.div
@@ -69,90 +64,83 @@ function DockItem(props) {
         style={{
           width: props.size,
           height: props.size,
-          border: props.debug ? "1px solid red" : null,
+          border: props.debug ? style.divider : null,
+          transform: spring.y.to({
+            range: [0, 0.166, 0.333, 0.499, 0.665, 0.831, 1],
+            output: [0, -50, 0, -50, 0, -50, 0]
+          }).to(x => `translateY(${x}px)`),
         }}
         onClick={() => {
-          props.onClick()
+          if (!props.running) {
+            springApi.start({from: {y: 0}, y: 1})
+          }
+
+          if (props.onClick) props.onClick()
         }}
       >
-        <animated.div
-          style={{
-            height: "100%",
-            transform: spring.y.to({
-              range: [0, 0.166, 0.333, 0.499, 0.665, 0.831, 1],
-              output: [0, -50, 0, -50, 0, -50, 0]
-            }).to(x => `translateY(${x}px)`),
-          }}
-        >
-          {React.Children.map(props.children, (item) => (
-            React.cloneElement(item, {
-              className: "dock-item-icon",
-            })
-          ))}
-        </animated.div>
-        {props.running ? <animated.div className="dock-item-indicator"/> : null}
+        {React.Children.map(props.children, (item) => (
+          React.cloneElement(item, {
+            className: "dock-item-icon",
+          })
+        ))}
       </animated.div>
+
+      {props.running ? <animated.div className="dock-item-indicator"/> : null}
     </div>
   );
 }
 
-function Dock(props) {
-  const [state, setState] = useState({
-    inner: false,
-    magnifierX: null,
-  });
-  const ref = useRef();
-
-  const computeDockItemWidths = (magnifierX) => {
-    return React.Children.map(props.children, (item, index) => {
-      if (magnifierX === null) return props.itemWidth;
-
-      let dockItemWidths = computeDockItemWidths(null);
-      let itemCenter = computeDockWidth(dockItemWidths.slice(0, index)) + (props.itemWidth / 2);
-      let distance = Math.abs(magnifierX - itemCenter);
-      let distancePercent = Math.max(1 - (distance / (props.itemWidth * 3)), 0);
-      return props.itemWidth + (props.itemWidth * distancePercent * props.magnification);
-    });
-  }
-
-  const computeDockWidth = (itemWidths = []) => {
+function DockOSX(props) {
+  const sumDockItemWidth = (itemWidths = []) => {
     return itemWidths.reduce((sum, itemWidth) => sum + itemWidth, 0);
   }
 
-  const maxMagnifiedDockWidth = () => {
+  const getDockItemWidth = (magnifierX) => {
+    return React.Children.map(props.children, (item, index) => {
+      if (item) {
+        if (magnifierX === null) return props.itemWidth;
+
+        let defaultDockItemWidths = getDockItemWidth(null);
+        let itemCenter = sumDockItemWidth(defaultDockItemWidths.slice(0, index)) + (props.itemWidth / 2);
+        let distance = Math.abs(magnifierX - itemCenter);
+        let distancePercent = Math.max(1 - (distance / (props.itemWidth * props.spreading)), 0);
+        return props.itemWidth + (props.itemWidth * distancePercent * props.magnification);
+      }
+    });
+  }
+
+  const getDockWidth = (magnifierX) => {
+    return sumDockItemWidth(getDockItemWidth(magnifierX));
+  }
+
+  const getDockOffset = (magnifierX, left) => {
     // The dock's width will be maximum when the mouse is magnifying the center of it.
-    return computeDockWidth(computeDockItemWidths(dockWidth(null) / 2));
-  }
-
-  const dockWidth = (magnifierX) => {
-    return computeDockWidth(computeDockItemWidths(magnifierX));
-  }
-
-  const dockOffset = (magnifierX, left) => {
-    const dockOffset = Math.abs(dockWidth(magnifierX) - maxMagnifiedDockWidth());
+    const maxMagnifiedDockWidth = getDockWidth(getDockWidth(null) / 2)
+    const dockOffset = Math.abs(maxMagnifiedDockWidth - getDockWidth(magnifierX));
     if (magnifierX === null) return dockOffset / 2;
 
-    const passMiddle = magnifierX >= dockWidth(null) / 2;
+    const passMiddle = magnifierX >= getDockWidth(null) / 2;
     return (left && !passMiddle) || (!left && passMiddle) ? dockOffset : 0;
   }
 
-  let offsetLeft = dockOffset(state.magnifierX, true);
-  let offsetRight = dockOffset(state.magnifierX, false);
-  let itemWidths = computeDockItemWidths(state.magnifierX);
-
+  const [state, setState] = useState({
+    magnifierX: null,
+  });
   let defaultSpring = {
-    offsetLeft: offsetLeft,
-    offsetRight: offsetRight,
+    offsetLeft: getDockOffset(state.magnifierX, true),
+    offsetRight: getDockOffset(state.magnifierX, false),
     config: {tension: 500, clamp: true},
   }
-  itemWidths.forEach((value, index) => {
+  getDockItemWidth(state.magnifierX).forEach((value, index) => {
     defaultSpring[`itemWidth${index}`] = value;
   })
   const spring = useSpring(defaultSpring)
 
+  const dockRef = useRef();
+
   return (
     <div
-      ref={ref}
+      ref={dockRef}
       className="dock"
     >
       <DockOffset
@@ -161,56 +149,45 @@ function Dock(props) {
         magnifyDirection={props.magnifyDirection}
         debug={props.debug}
       />
-      <div
-        style={
-          Object.assign({
-            display: "grid",
-            gridTemplateColumns: React.Children.map(props.children, () => "auto").join(" "),
-            position: "relative",
-          }, (() => {
-            switch (props.magnifyDirection) {
-              case "up": return { alignItems: "end", };
-              case "down": return { alignItems: "start", };
-              case "center": return { alignItems: "center", };
-              default: return {};
-            }
-          })())
-        }
-        onMouseEnter={() => {
-          setState({...state, inner: true})
+      <animated.div
+        className="dock-center"
+        style={{
+          gridTemplateColumns: React.Children.map(props.children, () => "auto").join(" "),
+          ...{
+            'up': {alignItems: 'end'},
+            'down': {alignItems: 'start'},
+            'center': {alignItems: 'center'}
+          }[props.magnifyDirection]
         }}
         onMouseMove={(event) => {
-          let magnifierX = event.pageX - ref.current.offsetLeft - dockOffset(null, true);
-          setState({...state, magnifierX: magnifierX >= 0 && magnifierX < dockWidth(null) ? magnifierX : null});
+          let magnifierX = event.pageX - dockRef.current.offsetLeft - getDockOffset(null, true);
+          setState({...state, magnifierX: magnifierX >= 0 && magnifierX < getDockWidth(null) ? magnifierX : null});
         }}
         onMouseLeave={() => {
-          setState({...state, inner: false, magnifierX: null});
+          setState({...state, magnifierX: null});
         }}
       >
         <div
-          className={`dock-background ${props.backgroundClassName}`}
-          style={
-            Object.assign({
-              height: `${props.itemWidth}px`,
-              border: props.debug ? "1px solid red" : null,
-            }, (() => {
-              switch (props.magnifyDirection) {
-                case "up": return { bottom: 0, };
-                case "down": return { top: 0, };
-                case "center": return { top: "50%", transform: "translateY(-50%)", };
-                default: return {};
-              }
-            })())
-          }
+          className="dock-background"
+          style={{
+            height: `${props.itemWidth}px`,
+            border: props.debug ? style.divider : null,
+            ...{
+              'up': {bottom: 0},
+              'down': {top: 0},
+              'center': {top: '50%', transform: 'translateY(-50%)'}
+            }[props.magnifyDirection]
+          }}
         />
 
         {React.Children.map(props.children, (item, index) => (
-          React.cloneElement(item, {
-            size: spring[`itemWidth${index}`],
-            debug: props.debug,
-          })
+          !React.isValidElement(item) ? null :
+            React.cloneElement(item, {
+              size: spring[`itemWidth${index}`],
+              debug: props.debug,
+            })
         ))}
-      </div>
+      </animated.div>
       <DockOffset
         width={spring.offsetRight}
         height={props.itemWidth}
@@ -221,34 +198,34 @@ function Dock(props) {
   );
 }
 
-function DockOSX(props) {
+function Dock(props) {
   const dispatch = useDispatch();
   const reduxState = useSelector(state => state);
 
   return (
     <div className="dock-container">
-      <Dock
-        backgroundClassName="dock-background"
-        itemWidth={64}
-        magnification={2}
+      <DockOSX
+        itemWidth={style.rmPx(style.dockHeight)}
+        spreading={1.5}
+        magnification={1}
         magnifyDirection="up"
       >
         {Object.entries(apps).map(([id, app], index) => (
-          id === '-1' ? <Fragment key={index}/> :
-          <DockItem
-            key={index}
-            name={app.name}
-            running={app.appId in reduxState.apps}
-            onClick={() => {
-              dispatch(startApp(id))
-            }}
-          >
-            {app.icon}
-          </DockItem>
+          id === '-1' ? null :
+            <DockItem
+              key={index}
+              name={app.name}
+              running={app.appId in reduxState.apps}
+              onClick={() => {
+                dispatch(switchApp(app.appId))
+              }}
+            >
+              {app.icon}
+            </DockItem>
         ))}
-      </Dock>
+      </DockOSX>
     </div>
   );
 }
 
-export default DockOSX;
+export default Dock;

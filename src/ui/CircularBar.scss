@@ -1,3 +1,5 @@
+@import "../style";
+
 .circular-bar {
   .icon {
     position: relative;
@@ -35,6 +37,6 @@
   .title {
     text-align: center;
 
-    font-weight: lighter;
+    font-weight: $fontWeight1;
   }
 }

@@ -2,14 +2,12 @@
 
 .weathers {
   width: $widgetsWidth;
-  padding: $lSpacing;
+  padding: $space4;
   box-sizing: border-box;
 
-
-  background-color: $grey6;
-  backdrop-filter: $blur;
-  border-radius: $sRadius;
-  box-shadow: 0 5px 70px 1px rgba($white, 0.2);
+  border-radius: $radius2;
+  box-shadow: $shadow2;
+  @include glassBackground();
 
   .loading {
     width: 100%;
@@ -37,13 +35,13 @@
       align-items: flex-start;
 
       .name {
-        font-weight: bold;
-        font-size: 16px;
+        font-weight: $fontWeight5;
+        font-size: $font3;
       }
 
       .temp {
-        font-weight: lighter;
-        font-size: 32px;
+        font-weight: $fontWeight1;
+        font-size: $font1;
       }
     }
 
@@ -63,7 +61,7 @@
         justify-content: center;
         align-items: flex-end;
 
-        font-size: 12px;
+        font-size: $font5;
       }
     }
   }

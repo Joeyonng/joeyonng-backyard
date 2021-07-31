@@ -3,31 +3,29 @@
 .widgets-background {
   width: $widgetsWidth;
   height: $widgetsHeight;
-  padding: $mSpacing;
+  padding: $space3;
   box-sizing: border-box;
   position: absolute;
-  top: $xlSpacing;
+  top: $menuBarHeight;
   right: 0;
-  z-index: $maxAppZIndex + 1;
 
   mask: linear-gradient(to right,
           rgba($white, 0) 0%, rgba($white, 1) 15%,
           rgba($white, 1) 85%, rgba($white, 0) 100%);
-  backdrop-filter: $blur;
+  backdrop-filter: $filterBlur;
 }
 
 .widgets-container {
   width: $widgetsWidth;
   height: $widgetsHeight;
-  padding: $mSpacing;
+  padding: $space3;
   box-sizing: border-box;
   position: absolute;
-  top: $xlSpacing;
+  top: $menuBarHeight;
   right: 0;
-  z-index: $maxAppZIndex + 2;
 
   mask: linear-gradient(to bottom,
-          rgba($white, 0) 0, rgba($white, 1) 12px,
+          rgba($white, 0) 0, rgba($white, 1) $space3,
           rgba($white, 1) calc(#{$widgetsHeight} - #{$menuBarHeight}), rgba($white, 0) #{$widgetsHeight});
 
   &::-webkit-scrollbar {
@@ -37,37 +35,36 @@
   // Use below div instead of margin property in Notification.scss to solve a react-spring bug.
   .notifications {
     overflow: visible;
+    pointer-events: auto;
 
     .notification-margin {
       width: 100%;
-      height: $mSpacing;
+      height: $space3;
     }
   }
 
   .widgets {
-  }
-
-  .widgets-end {
-    height: $mSpacing;
+    padding: $space3 0 $space3 0;
+    box-sizing: border-box;
   }
 }
 
 .widget {
   width: 100%;
-  margin: $mSpacing 0 0 0;
+  margin: $space3 0 0 0;
 
-  border-radius: $lRadius;
+  border-radius: $radius1;
 }
 
 .title-widget {
-  height: 32px;
-  padding: 0 0 0 $lSpacing;
+  height: $height5;
+  padding: 0 0 0 $space3;
   box-sizing: border-box;
   display: flex;
   align-items: center;
 
-  font-size: 24px;
-  font-weight: lighter;
+  font-size: $font2;
+  font-weight: $fontWeight1;
 }
 
 .image-widget {
@@ -79,8 +76,8 @@
   .widget-title {
     position: absolute;
 
-    font-size: 16px;
-    font-weight: lighter;
+    font-size: $font3;
+    font-weight: $fontWeight1;
     color: white;
   }
 }
@@ -90,21 +87,21 @@
 
   .widget-title {
     width: 100%;
-    padding: $lSpacing 0 0 0;
+    padding: $space1 0 0 0;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    border-radius: $lRadius $lRadius 0 0;
+    border-radius: $radius1 $radius1 0 0;
 
-    font-size: 16px;
-    font-weight: lighter;
+    font-size: $font3;
+    font-weight: $fontWeight1;
     text-align: center;
   }
 
   .widget-content {
     width: 100%;
-    padding: $lSpacing 0 $lSpacing 0;
+    padding: $space1 0 $space1 0;
     box-sizing: border-box;
 
     display: flex;
@@ -119,33 +116,24 @@
 
   .widget-title {
     width: 100%;
-    padding: $lSpacing 0 0 0;
+    padding: $space1 0 0 0;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    border-radius: $lRadius $lRadius 0 0;
+    border-radius: $radius1 $radius1 0 0;
 
-    font-size: 16px;
-    font-weight: lighter;
+    font-size: $font3;
+    font-weight: $fontWeight1;
     text-align: center;
   }
 
   .widget-content {
     width: 100%;
-    padding: $lSpacing;
+    padding: $space1;
     box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
-  }
-
-  .divider {
-    width: 100%;
-    height: 2px;
-    margin: $mSpacing 0 $mSpacing 0;
-    box-sizing: border-box;
-
-    border-top: 1px solid #CCCCCC;
   }
 }

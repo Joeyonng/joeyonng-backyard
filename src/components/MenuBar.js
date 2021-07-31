@@ -5,11 +5,11 @@ import {Gmail, Github} from "@icons-pack/react-simple-icons";
 
 import {changeSettings} from "../redux";
 import Widgets from "./Widgets";
-import Controls from "../menus/Controls";
 import Weathers from "../menus/Weathers";
+import {Controls} from "../menus/Controls";
 import {Buttons} from "../ui/Buttons";
-import {MenuButton} from "../ui/Menu";
-import {MenuItem} from "../ui/MenuItem";
+import {MenuButton} from "../ui/MenuButton";
+import {MenuDivider, MenuItem} from "../ui/Menu";
 
 import * as style from "../style";
 import apps from "../apps";
@@ -20,9 +20,7 @@ function MenuBar(props) {
   const dispatch = useDispatch();
 
   return (
-    <div
-      className="menu-bar"
-    >
+    <div className="menu-bar">
       <div className="menu-bar-left">
         {React.createElement(apps[reduxState.focusedId].menu, {
           appId: reduxState.focusedId,
@@ -30,19 +28,20 @@ function MenuBar(props) {
           settings: reduxState.settings[reduxState.focusedId],
         }, (
           <MenuButton
-            width={style.xlSize}
+            width={style.height7}
             title={<Code/>}
           >
             <MenuItem
               primary="Visit my Github"
-              secondary={<Github/>}
+              secondary={<Github width={style.icon1} height={style.icon1}/>}
               onClick={() => {
                 window.open("https://github.com/Joeyonng", '_blank');
               }}
             />
+            <MenuDivider/>
             <MenuItem
               primary="Contact me"
-              secondary={<Gmail/>}
+              secondary={<Gmail width={style.icon1} height={style.icon1}/>}
               onClick={() => {
                 window.open("mailto:checkpppp@gmail.com", '_blank');
               }}
@@ -54,8 +53,12 @@ function MenuBar(props) {
 
       <div>
         <Buttons overlap={true} reverse={true}>
-          <Widgets/>
+          <Widgets
+            widgetsLock={reduxState.settings['-1'].widgetsLock}
+            notifications={reduxState.notifications}
+          />
           <Controls
+            widgetsLock={reduxState.settings['-1'].widgetsLock}
             background={reduxState.settings['-1'].background}
             volume={reduxState.settings['-1'].volume}
             onVolumeChange={(value) => {

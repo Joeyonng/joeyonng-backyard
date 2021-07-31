@@ -1,6 +1,6 @@
 @import "../style";
 
-.drop-uploader {
+.drag-and-drop {
   min-height: 100%;
 
   display: grid;
@@ -10,7 +10,7 @@
     height: 100%;
     grid-area: 1 / 1;
 
-    backdrop-filter: $blur;
+    @include glassBackground();
 
     pointer-events: none;
   }
@@ -22,7 +22,7 @@
 
     transform: translate(-50%, -50%);
 
-    font-size: 32px;
+    font-size: $font1;
   }
 
   .drop-content {

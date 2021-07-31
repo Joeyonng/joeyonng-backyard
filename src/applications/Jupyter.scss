@@ -1,7 +1,10 @@
 @import "../style";
 
 .jupyter-container {
+  width: 100%;
+  height: 100%;
 
+  background-color: $white;
 }
 
 .jupyter-blank {
@@ -14,6 +17,6 @@
   text-align: center;
 
   color: $grey1;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: $font1;
+  font-weight: $fontWeight5;
 }

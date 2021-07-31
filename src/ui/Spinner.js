@@ -1,11 +1,17 @@
 // https://codepen.io/jmak/pen/LsCet
-
 import React from "react";
+
 import "./Spinner.scss"
 
 function Spinner(props) {
   return (
-    <div className="overlay">
+    <div
+      className="overlay"
+      style={{
+        width: props.size,
+        height: props.size,
+      }}
+    >
       <div
         className="spinner"
         style={{
@@ -29,4 +35,4 @@ function Spinner(props) {
   )
 }
 
-export default Spinner
+export {Spinner}

@@ -10,39 +10,77 @@ $purple: rgb(175, 82, 222);
 $black: rgb(0, 0, 0);
 $white: rgb(255, 255, 255);
 
-$grey1: rgb(142, 142, 147);
-$grey2: rgb(174, 174, 178);
-$grey3: rgb(199, 199, 204);
-$grey4: rgb(209, 209, 214);
-$grey5: rgb(229, 229, 234);
-$grey6: rgb(242, 242, 247);
+$grey1: rgb(121, 121, 121);
+$grey2: rgb(229, 229, 229);
+$grey3: rgb(242, 242, 242);
 
-$blur: blur(10px);
+$radius1: 20px;
+$radius2: 10px;
+$radius3: 6px;
+$radius4: 4px;
 
-$lRadius: 20px;
-$mRadius: 15px;
-$xmRadius: 12px;
-$sRadius: 10px;
-$xsRadius: 5px;
+$height1: 80px;
+$height2: 64px;
+$height3: 48px;
+$height4: 38px;
+$height5: 32px;
+$height6: 28px;
+$height7: 24px;
+$height8: 22px;
+$height9: 20px;
+$height10: 16px;
+$height11: 12px;
+$height12: 6px;
+$height13: 4px;
 
-$xlSpacing: 24px;
-$lSpacing: 18px;
-$mSpacing: 12px;
-$xmSpacing: 8px;
-$sSpacing: 6px;
-$xsSpacing: 4px;
+$space1: 18px;
+$space2: 14px;
+$space3: 12px;
+$space4: 10px;
+$space5: 8px;
+$space6: 6px;
+$space7: 4px;
 
-$xxlSize: 28px;
-$xlSize: 24px;
-$lSize: 20px;
-$mSize: 16px;
-$sSize: 12px;
-$xsSize: 10px;
+$font1: 26px;
+$font2: 22px;
+$font3: 17px;
+$font4: 13px;
+$font5: 12px;
+$font6: 11px;
 
+$icon1: 16px;
+$icon2: 8px;
+
+$fontWeight1: 100;
+$fontWeight2: 300;
+$fontWeight3: 400;
+$fontWeight4: 500;
+$fontWeight5: 700;
+
+$titleBarHeight: 28px;
+$toolbarHeight: 52px;
 $menuBarHeight: 24px;
-$dockHeight: 64px;
-$widgetsWidth: 329px;
+$dockHeight: 72px;
 $widgetsHeight: calc(100vh - #{$menuBarHeight} - #{$dockHeight});
+$widgetsWidth: 329px;
+$controlsWidth: 300px;
+$columnWidth: 200px;
 
 $minAppZIndex: 0;
 $maxAppZIndex: 99999;
+
+$unitPx: 1px;
+$border: $unitPx solid $grey2;
+$divider: $unitPx solid $grey1;
+$filterBlur: blur(10px);
+$filterDarken: brightness(0.8);
+$filterUnFocus: contrast(0.9);
+
+$shadow1: 0px 20px 30px rgba($black, 0.2);
+$shadow2: 0px 10px 20px rgba($black, 0.1);
+$shadow3: 0px 2px 10px rgba($black, 0.1);
+
+@mixin glassBackground() {
+  background: rgba($grey3, 0.5);
+  backdrop-filter: blur(80px);
+}

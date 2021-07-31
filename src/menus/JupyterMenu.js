@@ -1,29 +1,35 @@
-import React, {createRef} from "react";
+import React, {useRef} from "react";
 import {useDispatch} from "react-redux";
 
-import {changeSettings, closeApp, minimizeApp} from "../redux";
-import {MenuButton, MenuButtonGroup} from "../ui/Menu";
-import {MenuItem, MenuItemGroupWithSelectors, MenuItemWithSubMenu} from "../ui/MenuItem";
+import {changeAppData, changeSettings, closeApp, maximizeApp, minimizeApp} from "../redux";
+import {MenuButton, MenuButtonGroup} from "../ui/MenuButton";
+import {MenuItem, MenuItemGroupWithSelectors, MenuItemWithSubMenu} from "../ui/Menu";
 
 import * as style from "../style";
 
 function JupyterMenu(props) {
   const dispatch = useDispatch();
-  const inputRef = createRef(null);
+  const inputRef = useRef(null);
 
   return (
     <MenuButtonGroup>
       {props.children}
 
       <MenuButton
-        width={style.xlSize}
+        width={style.height7}
         title={props.name}
-        fontWeight="bold"
+        fontWeight={style.fontWeight4}
       >
         <MenuItem
           primary="Close"
           onClick={() => {
             dispatch(closeApp(props.appId));
+          }}
+        />
+        <MenuItem
+          primary="Maximize"
+          onClick={() => {
+            dispatch(maximizeApp(props.appId));
           }}
         />
         <MenuItem
@@ -34,9 +40,7 @@ function JupyterMenu(props) {
         />
       </MenuButton>
 
-      <MenuButton
-        title="File"
-      >
+      <MenuButton title="File">
         <MenuItem
           primary={"Upload"}
           onClick={() => {
@@ -45,9 +49,7 @@ function JupyterMenu(props) {
         />
       </MenuButton>
 
-      <MenuButton
-        title="View"
-      >
+      <MenuButton title="View">
         <MenuItemWithSubMenu primary={'Media Alignment'}>
           <MenuItemGroupWithSelectors
             default={props.settings.mediaAlign}
@@ -124,7 +126,7 @@ function JupyterMenu(props) {
         type="file"
         style={{display: "none"}}
         onChange={(e) => {
-          dispatch(changeSettings(1, {input: e.target.files[0]}))
+          dispatch(changeAppData(props.appId, {input: e.target.files[0]}))
         }}
       />
     </MenuButtonGroup>

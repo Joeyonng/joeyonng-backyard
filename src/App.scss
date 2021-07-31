@@ -8,20 +8,3 @@
 
   overflow: hidden;
 }
-
-::-webkit-scrollbar {
-  width: $sRadius;
-  height: $sRadius;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba($black, 0.5);
-  border-top: 1px solid rgba($white, 0.5);
-  border-bottom: 1px solid rgba($white, 0.5);
-  border-left: 1px solid rgba($white, 0.5);
-  border-radius: $sRadius;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba($black, 0.6);
-}

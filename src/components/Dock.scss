@@ -1,42 +1,60 @@
 @import "../style";
 
-.dock-background {
-  width: 100%;
-  box-sizing: border-box;
-  position: absolute;
+.dock-container {
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: $maxAppZIndex + 1;
 
-  background-color: rgba($grey6, 0.6);
-  border-radius: $mRadius;
-  box-shadow: 1px 1px 50px 4px rgba($black, 0.8);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
 }
 
-.dock-offset {
-  background: red;
+.dock {
+  display: grid;
+  grid-template-columns: auto auto auto;
+
+  .dock-center {
+    position: relative;
+
+    display: grid;
+
+    pointer-events: auto;
+  }
+
+  .dock-offset {
+    background: red;
+    pointer-events: none;
+  }
+
+  .dock-background {
+    width: 100%;
+    box-sizing: border-box;
+    position: absolute;
+
+    border-radius: $radius1;
+    box-shadow: $shadow3;
+    @include glassBackground;
+  }
 }
 
 .dock-item-container {
+  position: relative;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   .dock-item-popover {
-    margin: 0 0 $sSpacing 0;
-    padding: $sSpacing;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    overflow: visible;
-    text-align: center;
-
-    border-radius: $xsRadius;
-    background-color: rgba($grey6, 0.6);
+    position: absolute;
+    top: -40px;
   }
 
   .dock-item {
-    padding: 6px 5px 10px 5px;
+    padding: $space4 0 $space3 0;
     box-sizing: border-box;
 
     display: flex;
@@ -47,33 +65,18 @@
       height: 100%;
 
       &:active {
-        filter: brightness(60%);
+        filter: $filterDarken;
       }
     }
   }
 
   .dock-item-indicator {
-    min-width: 6px;
-    min-height: 6px;
-    margin: 2px 0 0 0;
+    width: $height13;
+    height: $height13;
+    position: absolute;
+    bottom: $space7;
 
     border-radius: 100%;
     background-color: $black;
   }
-}
-
-.dock {
-  display: grid;
-  grid-template-columns: auto auto auto;
-}
-
-.dock-container {
-  width: 100vw;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: $maxAppZIndex + 1;
-
-  display: flex;
-  justify-content: center;
 }

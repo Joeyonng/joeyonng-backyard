@@ -1,48 +1,49 @@
-import React, {useRef, useState} from "react";
+import React, {useRef} from "react";
 import {animated, useSpring} from "react-spring";
 
 import "./Video.scss";
+import {usePrevious} from "react-use";
 
 function Video(props) {
-  const [state, setState] = useState({
-    prevProps: props,
-  });
+  const prevProps = usePrevious(props);
   const videoRef = useRef(null);
 
-  const [spring] = useSpring(() => ({
+  const [spring, springApi] = useSpring(() => ({
     opacity: Number(props.show),
   }));
 
-  if (state.prevProps.show !== props.show) {
-    if (videoRef.current && props.show) {
-      videoRef.current.style.display = 'initial';
-      videoRef.current.play();
-    }
-
-    spring.opacity.start({
-      from: Number(!props.show),
-      to: Number(props.show),
-      onRest: () => {
-        if (videoRef.current && !props.show) {
-          videoRef.current.style.display = 'none';
-          videoRef.current.pause();
-        }
+  if (!prevProps || prevProps.show !== props.show) {
+    if (props.show) {
+      if (videoRef) {
+        videoRef.current.style.display = 'initial';
+        videoRef.current.play();
       }
-    })
-
-    setState({...state, prevProps: {...state.prevProps, show: props.show}});
+      springApi.start({opacity: 1});
+    }
+    else {
+      springApi.start({
+        opacity: 0,
+        onRest: () => {
+          if (videoRef.current && !props.show) {
+            if (spring.opacity.get() !== 1) {
+              videoRef.current.style.display = 'none';
+              videoRef.current.pause();
+            }
+          }
+        }
+      });
+    }
   }
 
-  if (state.prevProps.video !== props.video) {
+  if (!prevProps || prevProps.video !== props.video) {
     if (props.show) {
-      spring.opacity.start({
-        from: 1,
-        to: 0,
+      springApi.start({
+        opacity: 0,
         onRest: () => {
           if (videoRef.current) {
             videoRef.current.load();
             videoRef.current.oncanplay = () => {
-              spring.opacity.start({from: 0, to: 1});
+              springApi.start({opacity: 1});
               videoRef.current.oncanplay = null;
             }
           }
@@ -54,8 +55,6 @@ function Video(props) {
         videoRef.current.load();
       }
     }
-
-    setState({...state, prevProps: {...state.prevProps, video: props.video}});
   }
 
   if (videoRef.current !== null) {

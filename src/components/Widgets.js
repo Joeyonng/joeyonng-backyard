@@ -1,20 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useSelector} from "react-redux";
 import {useSpring, animated, useTransition} from "react-spring";
 import {Coffee, Smile} from "react-feather";
 import {Javascript, CssThree, ReactJs,NodeDotJs, Java, Cplusplus, Android, Python, Pytorch, Numpy, ScikitLearn} from "@icons-pack/react-simple-icons"
 
+import apps from "../apps";
 import Clock from "../ui/Clock";
 import Notification from "../ui/Notification";
 import {Button} from "../ui/Buttons";
 import {CircularBar} from "../ui/CircularBar";
-import ListItem from "../ui/ListItem";
+import {ListItem} from "../ui/ListItem";
 
 import * as style from "../style";
 import './Widgets.scss';
-import apps from "../apps";
-import geiselSun from "../images/Geisel-sun.jpg";
-import geiselCloud from "../images/Geisel-cloud.jpg";
+import geiselSun from "../media/images/Geisel-sun.jpg";
+import geiselCloud from "../media/images/Geisel-cloud.jpg";
 
 const SIZES = {
   large: "345px",
@@ -23,9 +22,7 @@ const SIZES = {
 
 function TitleWidget(props) {
   return (
-    <div
-      className="widget title-widget"
-    >
+    <div className="widget title-widget">
       {props.children}
     </div>
   )
@@ -43,10 +40,10 @@ function ImageWidget(props) {
       <div
         className="widget-title"
         style={{
-          top: props.position.vertical === 'top' ? style.mSpacing : "auto",
-          bottom: props.position.vertical === 'bottom' ? style.mSpacing : "auto",
-          left: props.position.horizontal === 'left' ? style.xmSpacing : "auto",
-          right: props.position.horizontal === 'right' ? style.xmSpacing : "auto",
+          top: props.position.vertical === 'top' ? style.space3 : "auto",
+          bottom: props.position.vertical === 'bottom' ? style.space3 : "auto",
+          left: props.position.horizontal === 'left' ? style.space5 : "auto",
+          right: props.position.horizontal === 'right' ? style.space5 : "auto",
           textAlign: props.position.horizontal,
         }}
       >
@@ -92,7 +89,6 @@ function ListWidget(props) {
       <div className="widget-content">
         {React.Children.map(props.children, (item, index) => (
           <React.Fragment>
-            {index !== 0 ? <div className="divider"/> : null}
             {item}
           </React.Fragment>
         ))}
@@ -101,18 +97,17 @@ function ListWidget(props) {
   )
 }
 
-const gridIconSize = 48;
 function Widgets(props) {
-  const reduxState = useSelector(state => state);
   const [state, setState] = useState({
     open: false,
     animatedOpen: false,
   })
+
   const ref = useRef(null);
   const widgetsRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
+      if (!props.widgetsLock && ref.current && !ref.current.contains(e.target)) {
         setState({...state, open: false})
       }
     }
@@ -134,7 +129,7 @@ function Widgets(props) {
     }
   });
   const notificationsMap = new WeakMap();
-  const transitions = useTransition(Object.values(reduxState.notifications), {
+  const transitions = useTransition(Object.values(props.notifications), {
     key: (item) => item.notificationId,
     from: {x: style.widgetsWidth, y: "0px"},
     enter: item => async (next) => {
@@ -147,12 +142,11 @@ function Widgets(props) {
   });
 
   return(
-    <div
-      ref={ref}
-    >
+    <div ref={ref}>
       <Button
+        size="medium"
         onClick={() => {
-          setState({...state, open: true})
+          setState({...state, open: !state.open})
         }}
       >
         <Clock/>
@@ -173,29 +167,27 @@ function Widgets(props) {
           pointerEvents: state.animatedOpen ? "auto" : "none",
         }}
       >
-        <React.Fragment>
-          {transitions((spring, item) => (
-            <animated.div
-              className="notifications"
-              style={{
-                height: spring.y,
-                transform: spring.x.to(x => `translateX(${x})`),
-              }}
-            >
-              <div ref={(ref) => ref && notificationsMap.set(item, ref)}>
-                <div className="notification-margin"/>
-                <Notification
-                  headerIcon={apps[item.appId].icon}
-                  header={apps[item.appId].name}
-                  primary={item.header}
-                  secondary={item.content}
-                  persistent={item.persistent}
-                  notificationId={item.notificationId}
-                />
-              </div>
-            </animated.div>
-          ))}
-        </React.Fragment>
+        {transitions((spring, item) => (
+          <animated.div
+            className="notifications"
+            style={{
+              height: spring.y,
+              transform: spring.x.to(x => `translateX(${x})`),
+            }}
+          >
+            <div ref={(ref) => ref && notificationsMap.set(item, ref)}>
+              <div className="notification-margin"/>
+              <Notification
+                headerIcon={apps[item.appId].icon}
+                header={apps[item.appId].name}
+                primary={item.header}
+                secondary={item.content}
+                persistent={item.persistent}
+                notificationId={item.notificationId}
+              />
+            </div>
+          </animated.div>
+        ))}
 
         <animated.div
           className="widgets"
@@ -240,28 +232,28 @@ function Widgets(props) {
           <GridWidget size="medium" title="Machine Learning">
             <CircularBar
               label="Python"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.9}
             >
               <Python/>
             </CircularBar>
             <CircularBar
               label="PyTorch"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.75}
             >
               <Pytorch/>
             </CircularBar>
             <CircularBar
               label="Numpy"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.8}
             >
               <Numpy/>
             </CircularBar>
             <CircularBar
               label="Scikit-learn"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.85}
             >
               <ScikitLearn/>
@@ -273,28 +265,28 @@ function Widgets(props) {
           >
             <CircularBar
               label="Javascript"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.9}
             >
               <Javascript/>
             </CircularBar>
             <CircularBar
               label="CSS3"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.9}
             >
               <CssThree/>
             </CircularBar>
             <CircularBar
               label="React"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.9}
             >
               <ReactJs/>
             </CircularBar>
             <CircularBar
               label="NodeJs"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.7}
             >
               <NodeDotJs/>
@@ -306,7 +298,7 @@ function Widgets(props) {
           >
             <CircularBar
               label="Java"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.7}
             >
               <Java/>
@@ -314,14 +306,14 @@ function Widgets(props) {
 
             <CircularBar
               label="C++"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.3}
             >
               <Cplusplus/>
             </CircularBar>
             <CircularBar
               label="Android"
-              size={gridIconSize}
+              size={style.rmPx(style.height3)}
               progress={0.4}
             >
               <Android/>
@@ -363,8 +355,6 @@ function Widgets(props) {
               tail="03/2019"
             />
           </ListWidget>
-
-          <div className="widgets-end"/>
         </animated.div>
       </div>
     </div>

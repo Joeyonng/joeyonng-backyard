@@ -1,8 +1,8 @@
 import React from "react";
 
-import DockOSX from "./components/Dock"
 import MenuBar from "./components/MenuBar";
 import Desktop from "./components/Desktop";
+import Dock from "./components/Dock"
 
 import "./App.scss";
 
@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <MenuBar/>
       <Desktop/>
-      <DockOSX/>
+      <Dock/>
     </div>
   );
 }

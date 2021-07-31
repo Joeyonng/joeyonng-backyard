@@ -1,93 +1,81 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useState} from "react";
+import {usePrevious} from "react-use";
 import JupyterViewer from "react-jupyter-notebook"
 
-import {WindowBasic} from "../ui/Windows";
-import DropUploader from "../ui/DropUploader";
-import Spinner from "../ui/Spinner";
-
-import "./Jupyter.scss";
+import {TitleBarWindow} from "../ui/Windows";
+import DragAndDrop from "../ui/DragAndDrop";
+import {Spinner} from "../ui/Spinner";
 import {useDispatch} from "react-redux";
-import {changeSettings, pushNotification} from "../redux";
+import {changeAppData, changeSettings, pushNotification} from "../redux";
 
-const appId = 1;
+import * as style from "../style";
+import "./Jupyter.scss";
+
 const ERROR_HEADER = 'Error reading file';
 const ERROR_CONTENT_PARSE = 'Error parsing the file content to Json format.';
 const ERROR_CONTENT_READ = ''
 
 function Jupyter(props) {
   const dispatch = useDispatch()
-  const [state, setState] = useState({})
+  const [state, setState] = useState({
+    notebook: null,
+  })
+  const prevProps = usePrevious(props);
 
-  const prevPropsRef = useRef();
-  useEffect(() => {
+  console.log(props.data)
+  let loading = false;
+  if (!prevProps || prevProps.data.input !== props.data.input) {
     const parseJson = (rawIpynb) => {
       try {
-        const notebook = JSON.parse(rawIpynb);
-        setState(state => ({...state, notebook: notebook}));
-      }
-      catch (error) {
+        return JSON.parse(rawIpynb);
+      } catch (error) {
         dispatch(pushNotification(props.appId, ERROR_HEADER, ERROR_CONTENT_PARSE, false))
+        return undefined;
       }
     }
 
-    if (props.settings.input) {
-      if (prevPropsRef.current === undefined || prevPropsRef.current.settings.input !== props.settings.input) {
-
-        if (typeof props.settings.input === "string") {
-          parseJson(props.settings.input);
-          /*
-          if (props.settings.notebook === null) {
-            fetch(props.url).then(data => data.text()).then(text => {
-              dispatch(changeSettings(1, {notebook: text}))
-            });
-          }
-           */
-        }
-        else if (props.settings.input !== null) {
-          setState(state => ({...state, loading: true}));
-
-          const reader = new FileReader();
-          reader.readAsText(props.settings.input, "UTF-8");
-          reader.onload = (e) => {
-            parseJson(e.target.result);
-            setState(state => ({...state, loading: false}));
-          };
-          reader.onerror = () => {
-            dispatch(pushNotification(props.appId, ERROR_HEADER, ERROR_CONTENT_READ, false))
-          };
-        }
-        else {
-          dispatch(pushNotification(props.appId, ERROR_HEADER, 'Invalid input type', false))
-        }
-      }
+    if (typeof props.data.input === "string") {
+      state.notebook = parseJson(props.data.input);
     }
+    else if (props.data.input) {
+      loading = true
 
-    prevPropsRef.current = props;
-  }, [dispatch, props]);
+      const reader = new FileReader();
+      reader.readAsText(props.data.input, "UTF-8");
+      reader.onload = (e) => {
+        setState({...state, notebook: parseJson(e.target.result)});
+      };
+      reader.onerror = () => {
+        dispatch(pushNotification(props.appId, ERROR_HEADER, ERROR_CONTENT_READ, false))
+      };
+    }
+  }
 
   return (
-    <WindowBasic
+    <TitleBarWindow
       initial={{x: 100, y: 100, w: 960, h: 640}}
-      firstTitle={props.name}
-      enableResizing={true}
-      hidden={props.hidden}
-      focus={props.focus}
       zIndex={props.zIndex}
       border={props.border}
+      focus={props.focus}
       onFocus={props.onFocus}
+      enableResizing={true}
+      windowState={props.windowState}
+      onWindowStateChange={props.onWindowStateChange}
       onCloseClick={props.onCloseClick}
       onMinimizeClick={props.onMinimizeClick}
       onMaximizeClick={props.onMaximizeClick}
+      backgroundColor={style.white}
+      title={props.name}
     >
-      <DropUploader
+      <DragAndDrop
         text="Drop here to open"
         onFileDropped={(file) => {
-          dispatch(changeSettings(appId, {input: file}))
+          dispatch(changeAppData(props.appId, {input: file}))
         }}
       >
 
-        {state.loading ? <div className="jupyter-blank"><Spinner/></div> :
-          state.notebook === undefined ?
+        {loading ? <div className="jupyter-blank"><Spinner/></div> :
+          !state.notebook ?
             <div className="jupyter-blank">
               Drag .ipynb file here or use "File" menu to load a notebook
             </div> :
@@ -98,8 +86,8 @@ function Jupyter(props) {
               displayOutput={props.settings.displayOutput}
             />
         }
-      </DropUploader>
-    </WindowBasic>
+      </DragAndDrop>
+    </TitleBarWindow>
   );
 }
 

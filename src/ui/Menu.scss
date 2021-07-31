@@ -1,35 +1,24 @@
 @import "../style";
 
-.menu {
-  padding: 6px 6px 6px 6px;
-  position: fixed;
-
-  border: 1px rgba($black, 0.3) solid;
-  border-radius: $xsRadius;
-  backdrop-filter: $blur;
-  background-color: rgba($white, 0.7);
-  box-shadow: 0 5px 70px 1px rgba($black, 0.2);
-}
-
-.menu-button {
-  height: $xlSize;
-  padding: 0 $mSpacing 0 $mSpacing;
+.menu-item {
+  width: 100%;
+  height: fit-content;
   box-sizing: border-box;
-  position: relative;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  border-radius: $xsRadius;
-  white-space: nowrap;
-
-  .menu-button-content {
-    height: $mSize
+  .menu-item-icon {
+    width: $icon1;
+    height: $icon1;
   }
 }
 
-.menu-button-group {
-  display: flex;
+.menu {
+  width: fit-content;
+  padding: $space7;
+  box-sizing: border-box;
+  position: fixed;
+
+  border-radius: $radius3;
+  box-shadow: $shadow2;
+  @include glassBackground();
 }
+

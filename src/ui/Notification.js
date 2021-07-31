@@ -9,7 +9,7 @@ import './Notification.scss';
 
 function Notification(props) {
   const dispatch = useDispatch();
-  const [spring, setSpring] = useSpring(() => ({
+  const [spring, springApi] = useSpring(() => ({
     opacity: 0,
   }))
 
@@ -25,10 +25,10 @@ function Notification(props) {
     <div
       className="notification"
       onMouseEnter={() => {
-        setSpring({opacity: 1})
+        springApi.start({opacity: 1})
       }}
       onMouseLeave={() => {
-        setSpring({opacity: 0})
+        springApi.start({opacity: 0})
       }}
     >
       <animated.div

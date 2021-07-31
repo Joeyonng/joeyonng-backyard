@@ -1,5 +1,7 @@
 import React from "react";
 
+import {formatDateTime} from "../utils/miscellaneous";
+
 class Clock extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +24,7 @@ class Clock extends React.Component {
   render() {
     return (
       <div className="clock">
-        {this.state.date.toDateString().substr(0, 11) + this.state.date.toLocaleTimeString("en-US")}
+        {formatDateTime(this.state.date)}
       </div>
     );
   }

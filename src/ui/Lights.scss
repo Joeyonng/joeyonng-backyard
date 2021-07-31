@@ -1,9 +1,9 @@
 @import "../style";
 
 .traffic-light {
-  width: $mSize;
-  height: $mSize;
-  margin: 1px $xsSpacing 1px $xsSpacing;
+  width: $height11;
+  height: $height11;
+  margin: $unitPx $space7 $unitPx $space7;
   padding: 0;
   box-sizing: border-box;
 
@@ -12,11 +12,11 @@
   justify-content: center;
 
   border-radius: 100%;
-  border: 1px solid rgba($white, 0.15);
+  border: $unitPx solid rgba($white, 0.15);
   outline: none;
 
   &:active {
-    filter: brightness(60%);
+    filter: $filterDarken;
   }
 
   .traffic-light-icon {

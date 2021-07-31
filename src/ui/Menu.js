@@ -1,10 +1,79 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
+import {Check, ChevronRight} from "react-feather"
 
-import {AnchorPopover} from "./Popover";
-import {MenuItemGroupWithSelectors} from "./MenuItem";
+import {Popover} from "./Popover";
+import {ListDivider, ListItem} from "./ListItem";
 
 import * as style from "../style";
 import './Menu.scss';
+
+function MenuDivider(props) {
+  return (
+    <ListDivider/>
+  )
+}
+
+function MenuItem(props) {
+  const [state, setState] = useState({
+    hover: false,
+  });
+
+  return (
+    <div
+      className="menu-item"
+      onClick={() => {
+        if (props.onClose) props.onClose();
+        if (props.onClick) props.onClick();
+      }}
+      onMouseEnter={() => {
+        setState({...state, hover: true})
+        if (props.onMouseEnter) props.onMouseEnter();
+      }}
+      onMouseLeave={() => {
+        setState({...state, hover: false})
+        if (props.onMouseLeave) props.onMouseLeave();
+      }}
+    >
+      <ListItem
+        size="small"
+        highlight={state.hover ? 'primary' : null}
+        primary={props.primary}
+        icon={!props.indented ? null :
+          (props.selected ? <Check className="menu-item-icon"/> : <div className="menu-item-icon"/>)
+        }
+        tail={props.secondary}
+      />
+    </div>
+  )
+}
+
+function MenuItemGroupWithSelectors(props) {
+  const [state, setState] = useState({
+    selectedValue: props.default,
+  })
+
+  return (
+    <React.Fragment>
+      {Object.entries(props.values).map(([key, value], index) => {
+        return (
+          key === '/' ? <MenuDivider key={index}/> :
+            <MenuItem
+              key={index}
+              primary={value.primary}
+              secondary={value.secondary}
+              indented={1}
+              selected={state.selectedValue === key}
+              onClick={() => {
+                setState({...state, selectedValue: key})
+                if (props.onChange !== undefined) props.onChange(key, index);
+              }}
+              onClose={props.onClose}
+            />
+        )
+      })}
+    </React.Fragment>
+  )
+}
 
 function Menu(props) {
   let hasMenuItemWithSelector = 0;
@@ -23,93 +92,44 @@ function Menu(props) {
   )
 }
 
-function MenuButton(props) {
-  return (
-    <AnchorPopover
-      open={props.open}
-      anchorStyle={{
-        left: props.left ? props.left : 0,
-      }}
-      anchorDir="y"
-      anchor={
-        <div
-          className="menu-button"
-          style={{
-            minWidth: props.width,
-            backgroundColor: props.open ? style.rgba(style.white, 0.75) : style.rgba(style.white, 0),
-            fontWeight: props.fontWeight ? props.fontWeight : "normal",
-          }}
-          onMouseOver={props.onMouseOver}
-          onMouseDown={props.onMouseDown}
-        >
-          {typeof props.title === "string" ? props.title :
-            React.Children.map(props.title, (item) => (
-              React.cloneElement(item, {
-                className: "menu-button-content",
-              })
-            ))
-          }
-        </div>
-      }
-    >
-      {props.children === undefined ? null :
-        <Menu>
-          {React.Children.map(props.children, (item) => (
-            React.cloneElement(item, {
-              onClose: props.onClose,
-            })
-          ))}
-        </Menu>
-      }
-    </AnchorPopover>
-  )
-}
-
-function MenuButtonGroup(props) {
+function MenuItemWithSubMenu(props) {
   const [state, setState] = useState({
-    openIndex: -1,
+    open: false,
   })
   const ref = useRef(null);
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setState({...state, openIndex: -1});
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  })
 
   return (
     <div
       ref={ref}
-      className="menu-button-group"
-      style={{
-        flexDirection: props.reverse ? "row-reverse" : "row",
+      onMouseLeave={() => {
+        setState({...state, open: false})
       }}
     >
-      {React.Children.map(props.children, (item, index) => (
-        React.cloneElement(item, {
-          key: index,
-          left: (props.reverse ? 8 : -8) * index,
-          open: state.openIndex === index,
-          onMouseOver: () => {
-            if (state.openIndex !== -1) {
-              setState({...state, openIndex: index})
-            }
-          },
-          onMouseDown: () => {
-            setState({...state, openIndex: index})
-          },
-          onClose: () => {
-            setState({...state, openIndex: -1})
-          }
-        })
-      ))}
+      <MenuItem
+        primary={props.primary}
+        secondary={<ChevronRight size={style.icon1}/>}
+        onMouseEnter={() => {
+          setState({...state, open: true})
+        }}
+      />
+
+      <Popover
+        open={state.open}
+        anchorRef={ref}
+        anchorDir="x"
+      >
+        {props.children === undefined ? null :
+          <Menu>
+            {React.Children.map(props.children, (item) => (
+              React.cloneElement(item, {
+                onClose: props.onClose,
+              })
+            ))}
+          </Menu>
+        }
+      </Popover>
     </div>
   )
 }
 
-export {Menu, MenuButton, MenuButtonGroup};
+export {MenuDivider, MenuItem, MenuItemGroupWithSelectors, Menu, MenuItemWithSubMenu};
