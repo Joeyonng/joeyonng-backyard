@@ -7,14 +7,17 @@ As time goes by, I will throw more features, applications and maybe personal sto
 ## Why
 
 This site serves as my personal website, as well as a demo for the component library [react-big-sur][1] that I built for 
-fun 
+fun. 
 
 This site is still in an early development and is far from a perfect copy of the real desktop experience (also lots of 
 bugs), but I already got lots of joys developing it. 
 
+[1]: https://github.com/Joeyonng/react-big-sur
+
 ## Related Works
 
-If you liked the design of my backyard, please also check out these awesome repositories which are very helpful.
+If you like the design of my backyard, please also check out these awesome repositories, which are very helpful in my 
+development of my backyard.
 - The idea is heavily inspired by [winXP](https://github.com/ShizukuIchi/winXP), from which I learned how to switch 
   between different Apps. 
 - It turns that I am not the first one to think of implementing web based macOS Big Sur UI.
