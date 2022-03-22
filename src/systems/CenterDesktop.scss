@@ -1,0 +1,10 @@
+@import "../style";
+
+.desktop {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: $minAppZIndex - 1;
+
+  overflow: hidden;
+}

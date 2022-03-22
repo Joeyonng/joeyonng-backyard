@@ -1,48 +1,55 @@
+import apps from "./apps";
+
 // Action types
-const START_APP = 'START_APP';
-const CLOSE_APP = 'CLOSE_APP';
-const FOCUS_APP = 'FOCUS_APP';
-const SWITCH_APP = 'SWITCH_APP';
-const RESTORE_APP = 'RESTORE_APP';
-const MINIMIZE_APP = 'MINIMIZE_APP';
-const MAXIMIZE_APP = 'MAXIMIZE_APP';
-const CHANGE_APP_DATA = 'CHANGE_APP_DATA';
+const START_WINDOW = 'START_WINDOW';
+const CLOSE_WINDOW = 'CLOSE_WINDOW';
+const FOCUS_WINDOW = 'FOCUS_WINDOW';
+const SWITCH_WINDOW = 'SWITCH_WINDOW';
+const RESHAPE_WINDOW = 'RESHAPE_WINDOW';
+const MINIMIZE_WINDOW = 'MINIMIZE_WINDOW';
+const MAXIMIZE_WINDOW = 'MAXIMIZE_WINDOW';
+const UPDATE_WINDOW = 'UPDATE_WINDOW';
+const CHANGE_WINDOW_DATA = 'CHANGE_WINDOW_DATA';
 const CHANGE_SETTINGS = 'CHANGE_SETTINGS';
 const PUSH_NOTIFICATION = 'PUSH_NOTIFICATION';
 const CLOSE_NOTIFICATION = 'CLOSE_NOTIFICATION';
 
 // Actions
-const startApp = (appId) => ({
-  type: START_APP,
+const startWindow = (appId) => ({
+  type: START_WINDOW,
   payload: {appId},
 })
-const closeApp = (appId) => ({
-  type: CLOSE_APP,
-  payload: {appId},
+const closeWindow = (windowId) => ({
+  type: CLOSE_WINDOW,
+  payload: {windowId},
 })
-const focusApp = (appId) => ({
-  type: FOCUS_APP,
-  payload: {appId},
+const focusWindow = (windowId) => ({
+  type: FOCUS_WINDOW,
+  payload: {windowId},
 })
-const switchApp = (appId) => ({
-  type: SWITCH_APP,
-  payload: {appId},
+const switchWindow = (windowId) => ({
+  type: SWITCH_WINDOW,
+  payload: {windowId},
 })
-const restoreApp = (appId) => ({
-  type: RESTORE_APP,
-  payload: {appId},
+const reshapeWindow = (windowId, newShape) => ({
+  type: RESHAPE_WINDOW,
+  payload: {windowId, newShape},
 })
-const minimizeApp = (appId) => ({
-  type: MINIMIZE_APP,
-  payload: {appId},
+const minimizeWindow = (windowId) => ({
+  type: MINIMIZE_WINDOW,
+  payload: {windowId},
 })
-const maximizeApp = (appId) => ({
-  type: MAXIMIZE_APP,
-  payload: {appId},
+const maximizeWindow = (windowId) => ({
+  type: MAXIMIZE_WINDOW,
+  payload: {windowId},
 })
-const changeAppData = (appId, changes) => ({
-  type: CHANGE_APP_DATA,
-  payload: {appId, changes},
+const updateWindow = (windowId, changes) => ({
+  type: UPDATE_WINDOW,
+  payload: {windowId, changes},
+})
+const changeWindowData = (windowId, changes) => ({
+  type: CHANGE_WINDOW_DATA,
+  payload: {windowId, changes},
 })
 const changeSettings = (appId, changes) => ({
   type: CHANGE_SETTINGS,
@@ -59,20 +66,16 @@ const closeNotification = (notificationId) => ({
 
 // Reducers
 let defaultState = {
-  focusedId: '-1',
-  apps: {
-    '0': {
-      data: {},
-      appId: '0',
-      zIndex: 0,
-      windowState: 0,
-    },
+  focusedId: '0',
+  windows: {
   },
   settings: {
-    '-1': {
+    '0': {
       volume: 0,
       weather: 'sun',
-      background: 'wallpaper',
+      background: 'weather',
+      notificationCenterOpen: true,
+      notificationCenterLock: false,
     },
     '2': {
       mediaAlign: 'center',
@@ -84,159 +87,217 @@ let defaultState = {
   },
 }
 
+let nextZIndex = Object.keys(defaultState.windows).length;
 let nextNotificationId = Object.keys(defaultState.notifications).length;
-let nextZIndex = Object.keys(defaultState.apps).length;
-const getFocusId = (apps) => {
-  let focusedId = -1;
-  const appsArray = Object.values(apps);
-  if (appsArray.length !== 0) {
-    const app = appsArray.sort((a, b) => b.zIndex - a.zIndex).find(app => app.windowState !== 1);
-    if (app !== undefined) focusedId = app.appId;
+
+const getFocusWindowId = (windows) => {
+  let focusedWindowId = 0;
+  const windowsArray = Object.entries(windows);
+  if (windowsArray.length !== 0) {
+    const [windowId, window] = windowsArray.sort(([_, window1], [__, window2]) =>
+      window2.zIndex - window1.zIndex
+    ).find(([___, window]) => !window.min);
+
+    if (windowId !== undefined) focusedWindowId = windowId;
   }
-  return String(focusedId);
+
+  return String(focusedWindowId);
 };
+
+const getNextWindowId = (windows) => {
+  const windowIds = Object.keys(windows);
+  if (windowIds.length === 0) return 'win_0';
+
+  const windowIdsNum = windowIds.map(windowId => Number(windowId.split('_')[1]));
+  const nextWindowIdNum = Math.max(...windowIdsNum) + 1;
+
+  return `win_${nextWindowIdNum}`;
+}
+
+const getNextWindowShape = (settings, appId) => {
+  const shape = settings[appId]?.shape;
+
+  if (shape) return {...shape, x: shape.x + 28, y: shape.y + 28};
+  else return {x: 100, y: 100, h: apps[appId].size.h, w: apps[appId].size.w};
+}
 
 function reducer(state=defaultState, action) {
   switch (action.type) {
-    case START_APP: {
+    case START_WINDOW: {
       const {appId} = action.payload;
 
-      if (state.apps[appId]) {
-        return {
-          ...state
-        };
-      }
-
+      const nextWindowId = getNextWindowId(state.windows)
+      const nextWindowShape = getNextWindowShape(state.settings, appId);
       return {
         ...state,
-        focusedId: appId,
-        apps: {
-          ...state.apps,
-          [appId]: {
-            ...state.apps[appId],
+        focusedId: nextWindowId,
+        windows: {
+          ...state.windows,
+          [nextWindowId]: {
+            ...state.windows[nextWindowId],
             data: {},
             appId: appId,
+            min: false,
+            max: false,
+            shape: nextWindowShape,
             zIndex: nextZIndex++,
-            windowState: 0,
+          }
+        },
+        settings: {
+          ...state.settings,
+          [appId]: {
+            ...state.settings[appId],
+            shape: nextWindowShape,
           }
         }
       }
     }
-    case CLOSE_APP: {
-      const {appId} = action.payload;
+    case CLOSE_WINDOW: {
+      const {windowId} = action.payload;
 
-      if (!state.apps[appId]) {
+      if (!state.windows[windowId]) {
         return {
           ...state
         };
       }
 
-      let newApps = {...state.apps};
-      delete newApps[appId];
+      let newWindows = {...state.windows};
+      delete newWindows[windowId];
 
-      const focusedId = getFocusId(newApps);
+      const focusedId = getFocusWindowId(newWindows);
       return {
         ...state,
         focusedId: focusedId,
-        apps: focusedId === '-1' ? {...newApps} : {
-          ...newApps,
+        windows: focusedId === '0' ? {...newWindows} : {
+          ...newWindows,
           [focusedId]: {
-            ...newApps[focusedId],
+            ...newWindows[focusedId],
             zIndex: nextZIndex++,
           }
         },
       };
     }
-    case FOCUS_APP: {
-      const {appId} = action.payload;
+    case FOCUS_WINDOW: {
+      const {windowId} = action.payload;
 
-      if (!state.apps[appId]) {
+      if (!state.windows[windowId]) {
         return {
           ...state,
-          focusedId: -1,
+          focusedId: 0,
         }
       }
 
       return {
         ...state,
-        focusedId: appId,
-        apps: {
-          ...state.apps,
-          [appId]: {
-            ...state.apps[appId],
+        focusedId: windowId,
+        windows: {
+          ...state.windows,
+          [windowId]: {
+            ...state.windows[windowId],
             zIndex: nextZIndex++,
           }
         },
       };
     }
-    case SWITCH_APP: {
-      const {appId} = action.payload;
+    case SWITCH_WINDOW: {
+      const {windowId} = action.payload;
 
-      if (!state.apps[appId]) {
-        return reducer(state, startApp(appId));
+      if (!state.windows[windowId]) {
+        return {
+          ...state,
+          focusedId: 0,
+        }
       }
-      else if(state.apps[appId].windowState !== 1) {
-        return reducer(state, focusApp(appId));
-      }
-      else {
-        return reducer(state, minimizeApp(appId));
-      }
-    }
-    case RESTORE_APP: {
-      const {appId} = action.payload;
 
       return {
         ...state,
-        apps: {
-          ...state.apps,
-          [appId]: {
-            ...state.apps[appId],
-            windowState: 0,
-          },
-        },
-      };
-    }
-    case MINIMIZE_APP: {
-      const {appId} = action.payload;
-
-      return {
-        ...state,
-        focusedId: appId,
-        apps: {
-          ...state.apps,
-          [appId]: {
-            ...state.apps[appId],
+        focusedId: windowId,
+        windows: {
+          ...state.windows,
+          [windowId]: {
+            ...state.windows[windowId],
+            min: false,
             zIndex: nextZIndex++,
-            windowState: state.apps[appId].windowState === 1 ? 2 : 1,
+          }
+        },
+      };
+    }
+    case RESHAPE_WINDOW: {
+      const {windowId, newShape} = action.payload;
+
+      return {
+        ...state,
+        windows: {
+          ...state.windows,
+          [windowId]: {
+            ...state.windows[windowId],
+            shape: newShape,
+            max: false,
+          },
+        },
+        settings: {
+          ...state.settings,
+          [state.windows[windowId].appId]: {
+            ...state.settings[state.windows[windowId].appId],
+            shape: newShape,
+          }
+        }
+      };
+    }
+    case MINIMIZE_WINDOW: {
+      const {windowId} = action.payload;
+
+      return {
+        ...state,
+        focusedId: windowId,
+        windows: {
+          ...state.windows,
+          [windowId]: {
+            ...state.windows[windowId],
+            min: !state.windows[windowId].min,
           },
         },
       };
     }
-    case MAXIMIZE_APP: {
-      const {appId} = action.payload;
+    case MAXIMIZE_WINDOW: {
+      const {windowId} = action.payload;
 
       return {
         ...state,
-        apps: {
-          ...state.apps,
-          [appId]: {
-            ...state.apps[appId],
-            windowState: state.apps[appId].windowState === 3 ? 2 : 3,
+        windows: {
+          ...state.windows,
+          [windowId]: {
+            ...state.windows[windowId],
+            max: !state.windows[windowId].max,
           },
         },
       };
     }
-    case CHANGE_APP_DATA: {
-      const {appId, changes} = action.payload;
+    case UPDATE_WINDOW: {
+      const {windowId, changes} = action.payload;
 
       return {
         ...state,
-        apps: {
-          ...state.apps,
-          [appId]: {
-            ...state.apps[appId],
+        windows: {
+          ...state.windows,
+          [windowId]: {
+            ...state.windows[windowId],
+            ...changes,
+          },
+        },
+      };
+    }
+    case CHANGE_WINDOW_DATA: {
+      const {windowId, changes} = action.payload;
+
+      return {
+        ...state,
+        windows: {
+          ...state.windows,
+          [windowId]: {
+            ...state.windows[windowId],
             data: {
-              ...state.apps[appId].data,
+              ...state.windows[windowId].data,
               ...changes,
             }
           }
@@ -295,7 +356,7 @@ function reducer(state=defaultState, action) {
 
 export {
   reducer,
-  startApp, closeApp, focusApp, switchApp,
-  minimizeApp, maximizeApp, restoreApp,
-  changeAppData, changeSettings, pushNotification, closeNotification
+  startWindow, closeWindow, focusWindow, switchWindow,
+  reshapeWindow, minimizeWindow, maximizeWindow, updateWindow,
+  changeWindowData, changeSettings, pushNotification, closeNotification
 };

@@ -1,28 +1,27 @@
-import React, {useState} from "react";
+import React, {forwardRef, useRef, useState, Fragment} from "react";
+import {useDispatch} from "react-redux";
 import {usePrevious} from "react-use";
 import JupyterViewer from "react-jupyter-notebook"
+import {TitleBarWindow, Spinner, MenuBarButton, Menu, MenuList, MenuItem} from "react-big-sur";
 
-import {TitleBarWindow} from "../ui/Windows";
-import DragAndDrop from "../ui/DragAndDrop";
-import {Spinner} from "../ui/Spinner";
-import {useDispatch} from "react-redux";
-import {changeAppData, changeSettings, pushNotification} from "../redux";
+import DragAndDrop from "../utils/DragAndDrop";
+import {changeWindowData, pushNotification} from "../redux";
 
 import * as style from "../style";
 import "./Jupyter.scss";
+import apps from "../apps";
 
 const ERROR_HEADER = 'Error reading file';
 const ERROR_CONTENT_PARSE = 'Error parsing the file content to Json format.';
 const ERROR_CONTENT_READ = ''
 
-function Jupyter(props) {
+function Jupyter(props, ref) {
   const dispatch = useDispatch()
   const [state, setState] = useState({
     notebook: null,
   })
   const prevProps = usePrevious(props);
 
-  console.log(props.data)
   let loading = false;
   if (!prevProps || prevProps.data.input !== props.data.input) {
     const parseJson = (rawIpynb) => {
@@ -53,24 +52,20 @@ function Jupyter(props) {
 
   return (
     <TitleBarWindow
-      initial={{x: 100, y: 100, w: 960, h: 640}}
-      zIndex={props.zIndex}
-      border={props.border}
+      ref={ref}
+      width="100%"
+      height="100%"
       focus={props.focus}
-      onFocus={props.onFocus}
-      enableResizing={true}
-      windowState={props.windowState}
-      onWindowStateChange={props.onWindowStateChange}
       onCloseClick={props.onCloseClick}
       onMinimizeClick={props.onMinimizeClick}
       onMaximizeClick={props.onMaximizeClick}
       backgroundColor={style.white}
-      title={props.name}
+      title={apps[props.appId].name}
     >
       <DragAndDrop
         text="Drop here to open"
         onFileDropped={(file) => {
-          dispatch(changeAppData(props.appId, {input: file}))
+          dispatch(changeWindowData(props.appId, {input: file}))
         }}
       >
 
@@ -88,7 +83,42 @@ function Jupyter(props) {
         }
       </DragAndDrop>
     </TitleBarWindow>
-  );
+  )
 }
 
-export default Jupyter;
+function JupyterMenu(props, ref) {
+  const {appWindow, windowId, appId, ...rootProps} = props;
+  const dispatch = useDispatch();
+
+  const inputRef = useRef(null);
+  return (
+    <MenuBarButton
+      label="File"
+      {...rootProps}
+    >
+      <Menu>
+        <MenuList>
+          <MenuItem
+            primary={"Upload"}
+            onClick={() => {
+              inputRef.current.click();
+            }}
+          />
+          <input
+            ref={inputRef}
+            type="file"
+            style={{display: "none"}}
+            onChange={(event) => {
+              dispatch(changeWindowData(windowId, {input: event.target.files[0]}))
+            }}
+          />
+        </MenuList>
+      </Menu>
+    </MenuBarButton>
+  )
+}
+
+Jupyter = forwardRef(Jupyter);
+JupyterMenu = forwardRef(JupyterMenu);
+
+export {Jupyter, JupyterMenu};

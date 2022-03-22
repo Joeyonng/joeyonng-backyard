@@ -1,0 +1,109 @@
+@import "../style";
+
+.widget {
+  width: 100%;
+  height: 100%;
+}
+
+.title-widget {
+  height: $height5;
+  padding: 0 0 0 $space3;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+
+  font-size: $font2;
+  font-weight: $fontWeight1;
+}
+
+.image-widget {
+  position: relative;
+  
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .widget-title {
+    position: absolute;
+
+    font-size: $font3;
+    font-weight: $fontWeight1;
+    color: white;
+  }
+}
+
+.grid-widget {
+  background-color: rgba($white, 1);
+
+  .widget-title {
+    width: 100%;
+    padding: $space1 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: $radius1 $radius1 0 0;
+
+    font-size: $font3;
+    font-weight: $fontWeight1;
+    text-align: center;
+  }
+
+  .widget-content {
+    width: 100%;
+    padding: $space1 0 $space1 0;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .widget-content-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .label {
+        margin: $space4 0 0 0;
+        text-align: center;
+
+        font-weight: $fontWeight1;
+      }
+    }
+  }
+}
+
+.list-widget {
+  background-color: rgba($white, 1);
+
+  .widget-title {
+    width: 100%;
+    padding: $space1 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: $radius1 $radius1 0 0;
+
+    font-size: $font3;
+    font-weight: $fontWeight1;
+    text-align: center;
+  }
+
+  .widget-content {
+    width: 100%;
+    padding: $space1;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.right-notification-center {
+  height: calc(100% - #{$menuBarHeight} - #{$dockHeight});
+  position: absolute;
+  top: $menuBarHeight;
+  right: 0;
+}

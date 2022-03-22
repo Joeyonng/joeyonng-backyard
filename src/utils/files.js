@@ -9,7 +9,9 @@ const TEXT_TYPES = ['md', 'txt', 'xml', 'html', 'css', 'js', 'jsx', 'c', 'cpp', 
 const OFFICE_TYPES = ['docx', 'pptx', 'xlsx', 'doc', 'ppt', 'xls', 'numbers', 'key', 'pages'];
 
 function getFileExtension(filename) {
-  let parts = filename.split('.');
+  if (filename[0] === '.') filename = filename.slice(1);
+
+  const parts = filename.split('.');
   if (parts.length === 1) {
     return "";
   }
@@ -46,9 +48,21 @@ function filenameToApp(filename) {
     return '2';
   }
   else {
-    return '-1';
+    return '0';
   }
 
 }
 
-export {getFileExtension, filenameToIcon, filenameToApp}
+// https://gist.github.com/n1ru4l/dc99062577b746e0783410b1298ab897
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader;
+    reader.onerror = reject;
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.readAsDataURL(blob);
+  })
+}
+
+export {getFileExtension, filenameToIcon, filenameToApp, blobToBase64}
