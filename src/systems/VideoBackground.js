@@ -67,7 +67,7 @@ function VideoBackground(props) {
       style={{
         opacity: spring.opacity,
       }}
-      autoPlay={true}
+      autoPlay={props.show}
       loop={true}
       muted={props.volume === 0}
     >

@@ -47,7 +47,7 @@ function CenterDesktop(props) {
       }}
     >
       <VideoBackground
-        show={settings[APP_ID].background === 'Weather'}
+        show={settings[APP_ID].background === 'weather'}
         video={weatherVideo(settings[APP_ID].weather)}
         volume={settings[APP_ID].volume}
       />

@@ -73,7 +73,7 @@ let defaultState = {
     '0': {
       volume: 0,
       weather: 'sun',
-      background: 'weather',
+      background: 'wallpaper',
       notificationCenterOpen: true,
       notificationCenterLock: false,
     },
@@ -94,9 +94,9 @@ const getFocusWindowId = (windows) => {
   let focusedWindowId = 0;
   const windowsArray = Object.entries(windows);
   if (windowsArray.length !== 0) {
-    const [windowId, window] = windowsArray.sort(([_, window1], [__, window2]) =>
+    const windowId = windowsArray.sort(([_, window1], [__, window2]) =>
       window2.zIndex - window1.zIndex
-    ).find(([___, window]) => !window.min);
+    ).find(([___, window]) => !window.min)[0];
 
     if (windowId !== undefined) focusedWindowId = windowId;
   }

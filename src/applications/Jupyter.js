@@ -1,4 +1,4 @@
-import React, {forwardRef, useRef, useState, Fragment} from "react";
+import React, {forwardRef, useRef, useState} from "react";
 import {useDispatch} from "react-redux";
 import {usePrevious} from "react-use";
 import JupyterViewer from "react-jupyter-notebook"
@@ -15,7 +15,7 @@ const ERROR_HEADER = 'Error reading file';
 const ERROR_CONTENT_PARSE = 'Error parsing the file content to Json format.';
 const ERROR_CONTENT_READ = ''
 
-function Jupyter(props, ref) {
+const Jupyter = forwardRef(function Jupyter(props, ref) {
   const dispatch = useDispatch()
   const [state, setState] = useState({
     notebook: null,
@@ -84,9 +84,9 @@ function Jupyter(props, ref) {
       </DragAndDrop>
     </TitleBarWindow>
   )
-}
+});
 
-function JupyterMenu(props, ref) {
+const JupyterMenu = forwardRef(function JupyterMenu(props, ref) {
   const {appWindow, windowId, appId, ...rootProps} = props;
   const dispatch = useDispatch();
 
@@ -116,9 +116,6 @@ function JupyterMenu(props, ref) {
       </Menu>
     </MenuBarButton>
   )
-}
-
-Jupyter = forwardRef(Jupyter);
-JupyterMenu = forwardRef(JupyterMenu);
+});
 
 export {Jupyter, JupyterMenu};

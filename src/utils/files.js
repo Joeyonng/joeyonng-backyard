@@ -56,7 +56,7 @@ function filenameToApp(filename) {
 // https://gist.github.com/n1ru4l/dc99062577b746e0783410b1298ab897
 function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader;
+    const reader = new FileReader();
     reader.onerror = reject;
     reader.onload = () => {
       resolve(reader.result);

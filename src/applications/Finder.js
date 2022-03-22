@@ -174,7 +174,7 @@ function GithubSidebar(props) {
     }).catch((error) => {
       console.log(error)
     });
-  }, [USERNAME]);
+  }, []);
 
   return (
     <DropdownList
@@ -222,7 +222,7 @@ function FavoriteSidebar(props) {
 }
 
 
-function Finder(props, ref) {
+const Finder = forwardRef(function Finder(props, ref) {
   const [state, setState] = useState({
     path: {root: 'About'},
     tree: {},
@@ -370,13 +370,11 @@ function Finder(props, ref) {
       />
     </ToolbarWindow>
   )
-}
+});
 
-function FinderMenu(props, ref) {
+const FinderMenu = forwardRef(function FinderMenu(props, ref) {
   return (<div></div>)
-}
+});
 
-Finder = forwardRef(Finder);
-FinderMenu = forwardRef(FinderMenu);
 
 export {Finder, FinderMenu};

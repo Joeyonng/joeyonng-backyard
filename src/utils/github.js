@@ -1,11 +1,5 @@
-import {githubToken} from "../keys";
-
 function githubFetchWithToken(api) {
-  return fetch(api, {
-    headers: {
-      authorization: `token ${githubToken}`
-    }
-  });
+  return fetch(api);
 }
 
 function listReposFromUser(username) {

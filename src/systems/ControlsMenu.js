@@ -32,12 +32,14 @@ function ControlsMenu(props) {
             <ListItem
               icon={
                 <HelpButton
-                  variant={appSettings.background === 'Weather' ? 'primary' : 'subdued'}
+                  variant={appSettings.background === 'weather' ? 'primary' : 'subdued'}
                   onClick={() => {
-                    dispatch(changeSettings(APP_ID, {background: appSettings.background === 'Weather' ? 'Wallpaper' : 'Weather'}));
+                    dispatch(changeSettings(APP_ID, {
+                      background: appSettings.background === 'weather' ? 'wallpaper' : 'weather'
+                    }));
                   }}
                 >
-                  <Feather color={appSettings.background === 'Weather' ? 'white' : 'black'}/>
+                  <Feather color={appSettings.background === 'weather' ? 'white' : 'black'}/>
                 </HelpButton>
               }
               size="large"
@@ -61,6 +63,7 @@ function ControlsMenu(props) {
                 </HelpButton>
               }
               primary="Sidebar"
+              primaryWeight="bold"
               secondary={appSettings.notificationCenterLock ? 'Locked' : 'Temporary'}
               noPadding={true}
             />
