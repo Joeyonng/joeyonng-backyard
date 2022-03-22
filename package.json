@@ -1,7 +1,7 @@
 {
-  "homepage": "https://joeyonng.github.io",
+  "homepage": "https://joeyonng.github.io/joeyonng-backyard/",
   "name": "joeyonng-backyard",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@icons-pack/react-simple-icons": "^4.4.0",
@@ -26,11 +26,11 @@
     "remark-gfm": "^3.0.1"
   },
   "scripts": {
-    "deploy": "npm run build && gh-pages -b master -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

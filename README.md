@@ -18,11 +18,12 @@ bugs), but I already got lots of joys developing it.
 
 If you like the design of my backyard, please also check out these awesome repositories, which are very helpful in my 
 development of my backyard.
-- The idea is heavily inspired by [winXP](https://github.com/ShizukuIchi/winXP), from which I learned how to switch 
-  between different Apps. 
-- It turns that I am not the first one to think of implementing web based macOS Big Sur UI.
-  [macos-web](https://github.com/PuruVJ/macos-web) and [playground-macos](https://github.com/Renovamen/playground-macos)
-  are two finner, more efficient and more professional implementations of the same idea.
-- The dock is adapted from [react-osx-dock](https://github.com/lukehorvat/react-osx-dock). I never thought state can be
-used to do the animations frame by frame. 
-  
+- The idea is heavily inspired by [winXP][2], from which I learned how to switch between different Apps. 
+- It turns that I am not the first one to think of implementing web based macOS Big Sur UI. [macos-web][3] and
+  [playground-macos][4] are two finner, more efficient and more professional implementations of the same idea.
+- The dock is adapted from [react-osx-dock][5]. I never thought state can be used to do the animations frame by frame. 
+
+[2]: https://github.com/ShizukuIchi/winXP
+[3]: https://github.com/PuruVJ/macos-web
+[4]: https://github.com/Renovamen/playground-macos
+[5]: https://github.com/lukehorvat/react-osx-dock
