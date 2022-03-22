@@ -1,0 +1,36 @@
+{
+  "files": {
+    "main.css": "/static/css/main.319a0d7d.chunk.css",
+    "main.js": "/static/js/main.f5bf2a6d.chunk.js",
+    "main.js.map": "/static/js/main.f5bf2a6d.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.53e40dd0.js",
+    "runtime-main.js.map": "/static/js/runtime-main.53e40dd0.js.map",
+    "static/css/2.cdf8ca36.chunk.css": "/static/css/2.cdf8ca36.chunk.css",
+    "static/js/2.7964d3d4.chunk.js": "/static/js/2.7964d3d4.chunk.js",
+    "static/js/2.7964d3d4.chunk.js.map": "/static/js/2.7964d3d4.chunk.js.map",
+    "509488ee3a5b79e5de97e62feb6f5d67.js": "/509488ee3a5b79e5de97e62feb6f5d67.js",
+    "509488ee3a5b79e5de97e62feb6f5d67.js.LICENSE.txt": "/509488ee3a5b79e5de97e62feb6f5d67.js.LICENSE.txt",
+    "index.html": "/index.html",
+    "static/css/2.cdf8ca36.chunk.css.map": "/static/css/2.cdf8ca36.chunk.css.map",
+    "static/css/main.319a0d7d.chunk.css.map": "/static/css/main.319a0d7d.chunk.css.map",
+    "static/js/2.7964d3d4.chunk.js.LICENSE.txt": "/static/js/2.7964d3d4.chunk.js.LICENSE.txt",
+    "static/media/Geisel-cloud.b2fe3194.jpg": "/static/media/Geisel-cloud.b2fe3194.jpg",
+    "static/media/Geisel-sun.e2e5687d.jpg": "/static/media/Geisel-sun.e2e5687d.jpg",
+    "static/media/katex.min.css": "/static/media/KaTeX_Typewriter-Regular.b6a56b14.woff",
+    "static/media/app-finder.a0c5a760.png": "/static/media/app-finder.a0c5a760.png",
+    "static/media/app-jupyter.713602c5.png": "/static/media/app-jupyter.713602c5.png",
+    "static/media/app-notes.2a31df5d.png": "/static/media/app-notes.2a31df5d.png",
+    "static/media/backyard-cloudy.ece74393.mp4": "/static/media/backyard-cloudy.ece74393.mp4",
+    "static/media/backyard-rain.ba17bf98.mp4": "/static/media/backyard-rain.ba17bf98.mp4",
+    "static/media/backyard-sunny.509f76ad.mp4": "/static/media/backyard-sunny.509f76ad.mp4",
+    "static/media/big-sur.f4e89d20.png": "/static/media/big-sur.f4e89d20.png",
+    "static/media/macOS-Big-Sur-Vector-Wave-Wallpaper.94029350.jpg": "/static/media/macOS-Big-Sur-Vector-Wave-Wallpaper.94029350.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.53e40dd0.js",
+    "static/css/2.cdf8ca36.chunk.css",
+    "static/js/2.7964d3d4.chunk.js",
+    "static/css/main.319a0d7d.chunk.css",
+    "static/js/main.f5bf2a6d.chunk.js"
+  ]
+}
