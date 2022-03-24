@@ -1,19 +1,17 @@
 {
   "files": {
     "main.css": "/joeyonng-backyard/static/css/main.319a0d7d.chunk.css",
-    "main.js": "/joeyonng-backyard/static/js/main.ffb177e3.chunk.js",
-    "main.js.map": "/joeyonng-backyard/static/js/main.ffb177e3.chunk.js.map",
+    "main.js": "/joeyonng-backyard/static/js/main.99bec1f2.chunk.js",
+    "main.js.map": "/joeyonng-backyard/static/js/main.99bec1f2.chunk.js.map",
     "runtime-main.js": "/joeyonng-backyard/static/js/runtime-main.88affb73.js",
     "runtime-main.js.map": "/joeyonng-backyard/static/js/runtime-main.88affb73.js.map",
     "static/css/2.6cfd2259.chunk.css": "/joeyonng-backyard/static/css/2.6cfd2259.chunk.css",
-    "static/js/2.e6e2f190.chunk.js": "/joeyonng-backyard/static/js/2.e6e2f190.chunk.js",
-    "static/js/2.e6e2f190.chunk.js.map": "/joeyonng-backyard/static/js/2.e6e2f190.chunk.js.map",
-    "f56ae91440ffc8c762b9983d02fd638e.js": "/joeyonng-backyard/f56ae91440ffc8c762b9983d02fd638e.js",
-    "f56ae91440ffc8c762b9983d02fd638e.js.LICENSE.txt": "/joeyonng-backyard/f56ae91440ffc8c762b9983d02fd638e.js.LICENSE.txt",
+    "static/js/2.bfbc3517.chunk.js": "/joeyonng-backyard/static/js/2.bfbc3517.chunk.js",
+    "static/js/2.bfbc3517.chunk.js.map": "/joeyonng-backyard/static/js/2.bfbc3517.chunk.js.map",
     "index.html": "/joeyonng-backyard/index.html",
     "static/css/2.6cfd2259.chunk.css.map": "/joeyonng-backyard/static/css/2.6cfd2259.chunk.css.map",
     "static/css/main.319a0d7d.chunk.css.map": "/joeyonng-backyard/static/css/main.319a0d7d.chunk.css.map",
-    "static/js/2.e6e2f190.chunk.js.LICENSE.txt": "/joeyonng-backyard/static/js/2.e6e2f190.chunk.js.LICENSE.txt",
+    "static/js/2.bfbc3517.chunk.js.LICENSE.txt": "/joeyonng-backyard/static/js/2.bfbc3517.chunk.js.LICENSE.txt",
     "static/media/Geisel-cloud.b2fe3194.jpg": "/joeyonng-backyard/static/media/Geisel-cloud.b2fe3194.jpg",
     "static/media/Geisel-sun.e2e5687d.jpg": "/joeyonng-backyard/static/media/Geisel-sun.e2e5687d.jpg",
     "static/media/katex.min.css": "/joeyonng-backyard/static/media/KaTeX_Typewriter-Regular.b6a56b14.woff",
@@ -29,8 +27,8 @@
   "entrypoints": [
     "static/js/runtime-main.88affb73.js",
     "static/css/2.6cfd2259.chunk.css",
-    "static/js/2.e6e2f190.chunk.js",
+    "static/js/2.bfbc3517.chunk.js",
     "static/css/main.319a0d7d.chunk.css",
-    "static/js/main.ffb177e3.chunk.js"
+    "static/js/main.99bec1f2.chunk.js"
   ]
 }
