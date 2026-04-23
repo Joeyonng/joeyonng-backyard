@@ -1,11 +1,17 @@
-import React, {useRef} from "react";
-import {animated, useSpring} from "react-spring";
-import {usePrevious} from "react-use";
+import React, { useRef } from 'react';
+import { animated, useSpring } from 'react-spring';
+import { usePrevious } from 'react-use';
 
-import "./VideoBackground.scss";
+import './VideoBackground.scss';
 
-function VideoBackground(props) {
-  const videoRef = useRef(null);
+type VideoBackgroundProps = {
+  show: boolean;
+  video: string;
+  volume: number;
+};
+
+function VideoBackground(props: VideoBackgroundProps) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const [spring, springApi] = useSpring(() => ({
     opacity: Number(props.show),
@@ -16,11 +22,10 @@ function VideoBackground(props) {
     if (props.show) {
       if (videoRef.current) {
         videoRef.current.style.display = 'initial';
-        videoRef.current.play();
+        void videoRef.current.play();
       }
-      springApi.start({opacity: 1});
-    }
-    else {
+      springApi.start({ opacity: 1 });
+    } else {
       springApi.start({
         opacity: 0,
         onRest: () => {
@@ -30,7 +35,7 @@ function VideoBackground(props) {
               videoRef.current.pause();
             }
           }
-        }
+        },
       });
     }
   }
@@ -44,14 +49,13 @@ function VideoBackground(props) {
           if (videoRef.current) {
             videoRef.current.load();
             videoRef.current.oncanplay = () => {
-              springApi.start({opacity: 1});
-              videoRef.current.oncanplay = null;
-            }
+              springApi.start({ opacity: 1 });
+              if (videoRef.current) videoRef.current.oncanplay = null;
+            };
           }
-        }
-      })
-    }
-    else {
+        },
+      });
+    } else {
       if (videoRef.current) videoRef.current.load();
     }
   }
@@ -68,14 +72,12 @@ function VideoBackground(props) {
         opacity: spring.opacity,
       }}
       autoPlay={props.show}
-      loop={true}
+      loop
       muted={props.volume === 0}
     >
-      <source
-        src={props.video}
-      />
+      <source src={props.video} />
     </animated.video>
-  )
+  );
 }
 
 export default VideoBackground;
