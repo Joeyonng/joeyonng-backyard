@@ -13,6 +13,7 @@ const previewInfo = {
   appVersion: packageJson.version,
   mode: import.meta.env.MODE,
   basePath: import.meta.env.BASE_URL,
+  commit: __APP_COMMIT__,
   isPreview: import.meta.env.BASE_URL.includes('/previews/'),
 };
 
