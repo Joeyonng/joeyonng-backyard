@@ -1,0 +1,13 @@
+@import "../../style";
+
+.menu {
+  width: fit-content;
+  height: fit-content;
+  padding: $space7;
+  box-sizing: border-box;
+
+  border-radius: $radius3;
+  box-shadow: $shadow2;
+  @include glassBackground();
+}
+

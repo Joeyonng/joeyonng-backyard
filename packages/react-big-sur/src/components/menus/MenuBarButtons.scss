@@ -1,0 +1,8 @@
+@import "../../style";
+
+.menu-button-group {
+  display: flex;
+  flex-direction: row;
+
+  z-index: 1; // For the menu-button-background to appear under the font but not under others
+}

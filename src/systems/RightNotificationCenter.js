@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {CssThree, Javascript, NodeDotJs, Numpy, Python, Pytorch, ReactJs, ScikitLearn} from "@icons-pack/react-simple-icons";
+import { SiCss, SiJavascript, SiNodedotjs, SiNumpy, SiPython, SiPytorch, SiReact, SiScikitlearn } from "react-icons/si";
 import {CircularBar, Notification, NotificationCenter, Notifications, Widget, Widgets} from "react-big-sur";
 
 import {changeSettings, closeNotification} from "../redux";
@@ -135,10 +135,10 @@ function RightNotificationCenter(props) {
             labels={['Python', 'Pytorch', 'Numpy', 'Scikit-learn']}
             values={[90, 75, 80, 85]}
           >
-            <Python/>
-            <Pytorch/>
-            <Numpy/>
-            <ScikitLearn/>
+            <SiPython/>
+            <SiPytorch/>
+            <SiNumpy/>
+            <SiScikitlearn/>
           </SkillsWidget>
 
           <SkillsWidget
@@ -146,10 +146,10 @@ function RightNotificationCenter(props) {
             labels={['Javascript', 'CSS3', 'React', 'NodeJs']}
             values={[90, 75, 80, 85]}
           >
-            <Javascript/>
-            <CssThree/>
-            <ReactJs/>
-            <NodeDotJs/>
+            <SiJavascript/>
+            <SiCss/>
+            <SiReact/>
+            <SiNodedotjs/>
           </SkillsWidget>
         </Widgets>
       </NotificationCenter>

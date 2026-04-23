@@ -1,0 +1,9 @@
+@import "../../style";
+
+.dock {
+  position: absolute;
+
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}

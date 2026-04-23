@@ -1,0 +1,34 @@
+@import "../../style";
+
+.tooltip{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .tooltip-text {
+    height: $length6;
+    padding: 0 $space2 0 $space2;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: visible;
+    text-align: center;
+    white-space: nowrap;
+    font-size: $font4;
+    font-weight: $fontWeight1;
+
+    border-radius: $radius2;
+    background-color: $grey2;
+  }
+
+  .tooltip-tip {
+    width: 0;
+    height: 0;
+
+    border-style: solid;
+  }
+}

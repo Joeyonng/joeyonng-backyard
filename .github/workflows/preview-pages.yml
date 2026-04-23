@@ -1,0 +1,50 @@
+name: Deploy branch preview to GitHub Pages
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - master
+      - gh-pages
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compute safe preview path segment
+        id: preview
+        shell: bash
+        run: |
+          safe_branch="$(echo "${GITHUB_REF_NAME}" | sed -E 's/[^a-zA-Z0-9._-]+/-/g')"
+          echo "safe_branch=${safe_branch}" >> "$GITHUB_OUTPUT"
+
+      - name: Build preview
+        env:
+          VITE_BASE_PATH: /joeyonng-backyard/previews/${{ steps.preview.outputs.safe_branch }}/
+        run: npm run build
+
+      - name: Deploy preview to gh-pages/previews/<branch>
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PREVIEW_BRANCH: ${{ github.ref_name }}
+          PREVIEW_DEST: previews/${{ steps.preview.outputs.safe_branch }}
+        run: node scripts/deploy-preview.mjs
+
+      - name: Print preview URL
+        run: echo "Preview URL: https://joeyonng.github.io/joeyonng-backyard/previews/${{ steps.preview.outputs.safe_branch }}/"

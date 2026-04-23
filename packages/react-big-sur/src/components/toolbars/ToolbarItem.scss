@@ -1,0 +1,21 @@
+@import "../../style";
+
+.toolbar-item {
+  all: unset;
+
+  width: fit-content;
+  height: fit-content;
+  padding: $space7 $space6 $space7 $space6;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  border-radius: $radius4;
+
+  line-height: $length11;
+  font-size: $font3;
+  white-space: nowrap;
+}

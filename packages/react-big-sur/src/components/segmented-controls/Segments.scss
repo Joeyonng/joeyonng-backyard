@@ -1,0 +1,22 @@
+@import "../../style";
+
+.segments {
+  width: fit-content;
+  height: fit-content;
+  padding: $unitPx;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  border-radius: $radius4;
+  background-color: rgba($grey3, 1);
+
+  .segment-divider {
+    width: $unitPx;
+    height: $length10 - $radius4;
+
+    background-color: $grey2;
+  }
+}

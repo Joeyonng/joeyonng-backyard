@@ -1,0 +1,9 @@
+@import "../../style";
+
+.list-divider {
+  height: $unitPx;
+  box-sizing: border-box;
+
+  border-top: $divider2;
+}
+

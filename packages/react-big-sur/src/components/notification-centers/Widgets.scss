@@ -1,0 +1,12 @@
+@import "../../style";
+
+.widgets {
+  width: $widgetLarge;
+  margin: $widgetGap 0;
+
+  display: grid;
+  grid-auto-rows: $widgetSmall;
+  grid-template-columns: repeat(2, $widgetSmall);
+  grid-column-gap: $widgetGap;
+  grid-row-gap: $widgetGap;
+}

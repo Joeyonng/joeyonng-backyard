@@ -1,0 +1,69 @@
+@import "../../style";
+
+.notification {
+  width: $notificationWidth;
+  height: fit-content;
+  // margin: $space3 0 $space3 0;  See Widgets.scss for why this is commented.
+  padding: $space3;
+  box-sizing: border-box;
+
+  border-radius: $radius2;
+  @include glassBackground();
+
+  .notification-close {
+    width: $length8;
+    height: $length8;
+    padding: $space7;
+    box-sizing: border-box;
+    position: fixed;
+    top: -$length8 / 3;
+    left: -$length8 / 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: $grey3;
+    border-radius: 100%;
+
+    &:active {
+      filter: $filterDarken;
+    }
+  }
+
+  .notification-header {
+    width: 100%;
+    height: $space1;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+
+    color: $grey1;
+    font-weight: $fontWeight2;
+
+    .notification-header-icon {
+      width: $space1;
+      height: $space1;
+    }
+
+    .notification-header-title {
+      padding: 0 $space6 0 $space6;
+      flex: 1;
+    }
+  }
+
+  .notification-content {
+    margin: $space6 0 0 0;
+    display: flex;
+    flex-direction: column;
+
+    .notification-content-primary {
+      font-weight: $fontWeight1;
+    }
+
+    .notification-content-secondary {
+
+    }
+  }
+}

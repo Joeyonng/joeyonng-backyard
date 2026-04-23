@@ -14,6 +14,54 @@ bugs), but I already got lots of joys developing it.
 
 [1]: https://github.com/Joeyonng/react-big-sur
 
+## Development
+
+### Prerequisites
+- Node.js 22+
+- npm 11+
+
+### Install
+```bash
+npm install
+```
+
+### Start dev server
+```bash
+npm run start
+```
+
+### Build
+```bash
+npm run build
+```
+
+
+### Deploy production (GitHub Pages)
+```bash
+npm run deploy:prod
+```
+
+### Deploy branch preview (GitHub Pages)
+```bash
+PREVIEW_BRANCH=$(git branch --show-current) npm run deploy:preview
+```
+This publishes to:
+- `https://joeyonng.github.io/joeyonng-backyard/previews/<branch>/`
+
+> Branch names are sanitized to URL-safe slugs (non `a-zA-Z0-9._-` characters are replaced with `-`).
+
+A GitHub Actions workflow also deploys previews automatically on push to non-main branches.
+
+### Environment variables
+Copy `.env.example` to `.env` and fill in values:
+
+- `VITE_OPENWEATHER_API_KEY`: API key for the weather widget.
+
+## Monorepo layout
+
+- `packages/react-big-sur`: local workspace copy of `react-big-sur`
+- `src`: backyard app source
+
 ## Related Works
 
 If you like the design of my backyard, please also check out these awesome repositories, which are very helpful in my 

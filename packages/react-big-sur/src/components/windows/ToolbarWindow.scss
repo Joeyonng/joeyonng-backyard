@@ -1,0 +1,71 @@
+@import "../../style";
+
+.toolbar-window {
+  width: fit-content;
+  height: fit-content;
+
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: $toolbarHeight auto;
+  gap: 0;
+
+  border-radius: $radius2;
+
+  cursor: default !important;
+  overflow: hidden;
+
+  .left-toolbar {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+
+    grid-area: 1 / 1 / 2 / 2;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    border-right: $border;
+    @include glassBackground();
+  }
+
+  .right-toolbar {
+    height: 100%;
+    border-bottom: $border;
+    box-sizing: border-box;
+    position: relative;
+
+    grid-area: 1 / 2 / 2 / 3;
+    background-color: white;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .sidebar {
+    width: fit-content;
+    height: 100%;
+
+    grid-area: 2 / 1 / 3 / 2;
+
+    display: flex;
+    flex-direction: column;
+
+    border-right: $border;
+    @include glassBackground();
+
+    overflow: hidden;
+  }
+
+  .lights {
+    padding: 0 0 0 $space1;
+  }
+
+  .window-content {
+    grid-area: 2 / 2 / 3 / 3;
+
+    overflow: auto;
+  }
+}

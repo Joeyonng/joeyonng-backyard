@@ -1,0 +1,43 @@
+@import "../../style";
+
+.title-bar-window {
+  width: fit-content;
+  height: fit-content;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: $radius2;
+
+  cursor: default !important;
+  overflow: hidden;
+
+  .title-bar {
+    width: 100%;
+    height: $titleBarHeight;
+    padding: 0 $space1 0 $space1;
+    box-sizing: border-box;
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    border-bottom: $border;
+    background-color: white;
+
+    user-select: none;
+  }
+
+  .lights {
+    position: absolute;
+    left: $space1;
+  }
+
+  .window-content {
+    flex: 1;
+
+    overflow: auto;
+  }
+}

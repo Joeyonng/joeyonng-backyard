@@ -2,7 +2,8 @@ import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {toPng} from "html-to-image";
 import {Code} from "react-feather";
-import {Github, Gmail} from "@icons-pack/react-simple-icons";
+import { FaGithub } from "react-icons/fa";
+import { SiGmail } from "react-icons/si";
 import {Menu, MenuBarButton, MenuBarButtons, MenuDivider, MenuItem, MenuList} from "react-big-sur";
 
 import {changeSettings, closeWindow, maximizeWindow, minimizeWindow, updateWindow} from "../redux";
@@ -59,7 +60,7 @@ function TopMenuBar(props) {
               <MenuList>
                 <MenuItem
                   primary="Visit my Github"
-                  tail={<Github width={style.icon1} height={style.icon1}/>}
+                  tail={<FaGithub size={style.icon1}/>}
                   onClick={() => {
                     window.open("https://github.com/Joeyonng");
                   }}
@@ -67,7 +68,7 @@ function TopMenuBar(props) {
                 <MenuDivider/>
                 <MenuItem
                   primary="Contact me"
-                  tail={<Gmail width={style.icon1} height={style.icon1}/>}
+                  tail={<SiGmail size={style.icon1}/>}
                   onClick={() => {
                     window.open("mailto:checkpppp@gmail.com");
                   }}

@@ -1,0 +1,16 @@
+@import "../../style";
+
+.notifications {
+  display: flex;
+
+  .notification-container {
+    overflow: visible;
+    pointer-events: auto;
+
+    // Use below div instead of margin property in Notification.scss to solve a react-spring bug.
+    .notification-margin {
+      width: 100%;
+      height: $widgetGap;
+    }
+  }
+}

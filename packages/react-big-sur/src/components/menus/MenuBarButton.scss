@@ -1,0 +1,30 @@
+@import "../../style";
+
+.menu-button {
+  height: $length8;
+  padding: 0 $space4 0 $space4;
+  box-sizing: border-box;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: $font4;
+  text-align: center;
+  white-space: nowrap;
+  cursor: default;
+
+  .menu-button-background {
+    height: 100%;
+    box-sizing: border-box;
+    position: absolute;
+
+    border-radius: $radius4;
+    z-index: -1;
+  }
+
+  .menu-button-content {
+    height: $length11;
+  }
+}

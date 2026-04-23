@@ -1,0 +1,68 @@
+@import "../../style";
+
+.dock-item-container {
+  box-sizing: border-box;
+  position: relative; // Needed to be positioned so that stacking can be respected.
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: visible;
+
+  .dock-item-tooltip {
+    margin: 0 0 $space3 0;
+  }
+
+  .dock-item {
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:active {
+      filter: $filterDarken;
+    }
+
+    .dock-item-anchor {
+      position: relative;
+      box-sizing: border-box;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .dock-item-icon {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+
+        transform-origin: top left;
+
+        pointer-events: none;
+        object-fit: contain;
+      }
+
+      .dock-item-sub {
+        width: 35%;
+        height: 35%;
+        box-sizing: border-box;
+
+        position: absolute;
+
+        pointer-events: none;
+        object-fit: contain;
+      }
+    }
+  }
+
+  .dock-item-indicator {
+    width: $length15;
+    height: $length15;
+
+    border-radius: 100%;
+    background-color: $black;
+  }
+}

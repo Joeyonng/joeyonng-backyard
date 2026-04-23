@@ -1,0 +1,31 @@
+@import "../../style";
+
+.dock-container {
+  display: flex;
+
+  .dock-center {
+    padding: $space8;
+    box-sizing: border-box;
+    position: relative; // Needed because of absolute position of dock-center-background
+    z-index: 0; // Needed to create a separate stacking context so that all children with z-index -1 won't be beneath body.
+
+    display: flex;
+
+    pointer-events: auto;
+
+    // Need a separate dock-center-background because dockItems are under the background while animating.
+    // More about stacking context:
+    // https://stackoverflow.com/questions/54897916/why-cant-an-element-with-a-z-index-value-cover-its-child
+    .dock-center-background {
+      position: absolute;
+      // Same size as the parent
+      top:0;
+      right:0;
+      bottom: 0;
+      left: 0;
+
+      box-shadow: $shadow3;
+      @include glassBackground;
+    }
+  }
+}

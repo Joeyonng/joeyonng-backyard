@@ -6,7 +6,6 @@ import {Menu, MenuBarButton, Spinner} from "react-big-sur";
 import {changeSettings, pushNotification} from "../redux";
 
 import "./WeatherMenu.scss";
-import {openWeatherAPIKey} from "../keys";
 
 const zipCode = '92056'
 const countryCode = 'us'
@@ -56,7 +55,7 @@ function WeatherMenu(props) {
       label={
         React.cloneElement(!state.weathers ? <Umbrella/> : state.weathers.icon, {
           onClick: () => {
-            fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},${countryCode}&units=metric&appid=${openWeatherAPIKey}`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},${countryCode}&units=metric&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`)
               .then((response) => response.json())
               .then(json => {
                 const weather = parseOpenWeather(json)

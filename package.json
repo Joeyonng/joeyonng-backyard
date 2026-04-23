@@ -1,53 +1,45 @@
 {
-  "homepage": "https://joeyonng.github.io/joeyonng-backyard/",
   "name": "joeyonng-backyard",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
-  "dependencies": {
-    "@icons-pack/react-simple-icons": "^4.4.0",
-    "gh-pages": "^3.2.0",
-    "html-to-image": "^1.9.0",
-    "node-sass": "^5.0.0",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-big-sur": "^0.0.3",
-    "react-dom": "^17.0.1",
-    "react-fast-compare": "^3.2.0",
-    "react-feather": "^2.0.9",
-    "react-file-viewer": "^1.2.1",
-    "react-jupyter-notebook": "^0.3.0",
-    "react-markdown": "^8.0.0",
-    "react-pdf": "^5.3.0",
-    "react-redux": "^7.2.3",
-    "react-rnd": "^10.3.4",
-    "react-scripts": "^4.0.3",
-    "react-spring": "^9.2.4",
-    "react-use": "^17.2.4",
-    "remark-gfm": "^3.0.1"
-  },
+  "homepage": "https://joeyonng.github.io/joeyonng-backyard/",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "deploy": "npm run build && gh-pages -d build"
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "deploy": "npm run deploy:prod",
+    "deploy:preview": "npm run build && node scripts/deploy-preview.mjs",
+    "deploy:prod": "npm run build && gh-pages -d dist"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "gh-pages": "^6.3.0",
+    "html-to-image": "^1.11.13",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1",
+    "react-big-sur": "file:packages/react-big-sur",
+    "react-dom": "^18.3.1",
+    "react-fast-compare": "^3.2.2",
+    "react-feather": "^2.0.10",
+    "react-icons": "^5.5.0",
+    "react-jupyter-notebook": "^0.3.0",
+    "react-markdown": "^10.1.0",
+    "react-pdf": "^10.2.0",
+    "react-redux": "^9.2.0",
+    "react-rnd": "^10.5.2",
+    "react-spring": "^10.0.3",
+    "react-use": "^17.6.0",
+    "redux": "^5.0.1",
+    "remark-gfm": "^4.0.1"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.0",
+    "playwright": "^1.59.1",
+    "sass": "^1.93.2",
+    "vite": "^7.1.12",
+    "vitest": "^3.2.4"
   }
 }

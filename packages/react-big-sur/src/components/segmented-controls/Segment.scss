@@ -1,0 +1,31 @@
+@import "../../style";
+
+.segment {
+  width: fit-content;
+  height: $length10;
+  padding: 0 $space4 0 $space4;
+  box-sizing: border-box;
+  flex: 1 1 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: $radius4;
+
+  line-height: $length12;
+  font-size: $font5;
+
+  white-space: nowrap;
+  user-select: none;
+
+  .segment-content {
+    width: $length12;
+    height: $length12;
+  }
+
+  &.selected {
+    background-color: $white;
+  }
+}

@@ -1,0 +1,12 @@
+@import "../../style";
+
+.animated-window {
+  border-radius: $radius2;
+
+  cursor: default !important;
+
+  .window-inner {
+    width: 100%;
+    height: 100%;
+  }
+}

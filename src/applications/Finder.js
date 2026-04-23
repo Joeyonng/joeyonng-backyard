@@ -2,8 +2,8 @@ import React, {forwardRef, useEffect, useState} from "react";
 import {useMeasure} from "react-use";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import {Document, Page} from "react-pdf/dist/esm/entry.webpack";
-import {Github} from "@icons-pack/react-simple-icons";
+import { Document, Page, pdfjs } from "react-pdf";
+import { FaGithub } from "react-icons/fa";
 import {ChevronRight, ChevronLeft, Meh, Clipboard} from "react-feather";
 import {DropdownList, List, ListItem, ListDivider, ToolbarItem, ToolbarWindow, ColumnViewFactory} from "react-big-sur";
 
@@ -16,6 +16,7 @@ import useObjHistory from "../utils/useObjHistory";
 import {formatDateTime} from "../utils/miscellaneous";
 
 const USERNAME = 'joeyonng';
+pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.mjs", import.meta.url).toString();
 
 function PdfPreview(props) {
   const [ref, {width}] = useMeasure();
@@ -185,7 +186,7 @@ function GithubSidebar(props) {
         state.repositories.map((repo, index) => (
           <ListItem
             key={repo}
-            icon={<Github color={style.blue}/>}
+            icon={<FaGithub color={style.blue}/>}
             primary={repo}
             variant={props.selected === repo ? 'secondary' : 'normal'}
             onClick={() => {
