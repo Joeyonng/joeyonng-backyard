@@ -13,7 +13,8 @@
     "test": "vitest",
     "deploy": "npm run deploy:prod",
     "deploy:preview": "npm run build && node scripts/deploy-preview.mjs",
-    "deploy:prod": "npm run build && gh-pages -d dist"
+    "deploy:prod": "npm run build && gh-pages -d dist",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "gh-pages": "^6.3.0",
@@ -36,9 +37,13 @@
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
+    "@types/node": "^24.6.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.1.0",
     "playwright": "^1.59.1",
     "sass": "^1.93.2",
+    "typescript": "^5.9.3",
     "vite": "^7.1.12",
     "vitest": "^3.2.4"
   }
