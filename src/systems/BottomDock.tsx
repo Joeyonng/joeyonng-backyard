@@ -5,7 +5,7 @@ import { Dock, DockDivider, DockItem } from 'react-big-sur';
 import apps from '../apps';
 import { startWindow, switchWindow, updateWindow } from '../redux';
 import appNotesIcon from '../media/icons/app-notes.png';
-
+import type { AppRegistry } from '../types/app';
 
 const DockComponent = Dock as any;
 const DockDividerComponent = DockDivider as any;
@@ -20,7 +20,7 @@ type WindowNode = {
 function BottomDock() {
   const dispatch = useDispatch();
   const windows = useSelector((state: any) => state.windows as Record<string, WindowNode>);
-  const appRegistry = apps as Record<string, { appId: string; icon: string; name: string }>;
+  const appRegistry = apps as AppRegistry;
 
   return (
     <DockComponent>

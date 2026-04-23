@@ -4,17 +4,9 @@ import { Jupyter, JupyterMenu } from './applications/Jupyter';
 import appFinderIcon from './media/icons/app-finder.png';
 import jupyterIcon from './media/icons/app-jupyter.png';
 import bigSurIcon from './media/icons/big-sur.png';
+import type { AppRegistry } from './types/app';
 
-type AppRegistryEntry = {
-  appId: string;
-  name: string;
-  icon: string;
-  size?: { w: number; h: number };
-  menu?: any;
-  window?: any;
-};
-
-const apps: Record<string, AppRegistryEntry> = {
+const apps: AppRegistry = {
   '0': {
     appId: '0',
     name: 'Desktop',
