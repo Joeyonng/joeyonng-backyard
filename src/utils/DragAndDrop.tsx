@@ -1,16 +1,22 @@
-import React from "react";
-import {useSpring, animated} from "react-spring";
+import React, { type ReactNode } from 'react';
+import { animated, useSpring } from 'react-spring';
 
-import "./DragAndDrop.scss"
+import './DragAndDrop.scss';
 
 // Solve the bug
 // https://stackoverflow.com/questions/7110353/html5-dragleave-fired-when-hovering-a-child-element?page=1&tab=oldest#tab-top
 let dragCounter = 0;
 
-function DragAndDrop(props) {
+type DragAndDropProps = {
+  children?: ReactNode;
+  onFileDropped: (file: File) => void;
+  text: ReactNode;
+};
+
+function DragAndDrop(props: DragAndDropProps) {
   const [spring, springApi] = useSpring(() => ({
     opacity: 0,
-  }))
+  }));
 
   return (
     <div
@@ -18,20 +24,20 @@ function DragAndDrop(props) {
       onDragEnter={(e) => {
         if (e.dataTransfer.types[0] === 'Files') {
           e.preventDefault();
-          dragCounter = dragCounter + 1;
+          dragCounter += 1;
 
           if (dragCounter > 0) {
-            springApi.start({opacity: 1})
+            springApi.start({ opacity: 1 });
           }
         }
       }}
       onDragLeave={(e) => {
         if (e.dataTransfer.types[0] === 'Files') {
           e.preventDefault();
-          dragCounter = dragCounter - 1;
+          dragCounter -= 1;
 
           if (dragCounter === 0) {
-            springApi.start({opacity: 0})
+            springApi.start({ opacity: 0 });
           }
         }
       }}
@@ -43,22 +49,20 @@ function DragAndDrop(props) {
           e.preventDefault();
           dragCounter = 0;
 
-          springApi.start({opacity: 0})
-          props.onFileDropped(e.dataTransfer.files[0]);
+          springApi.start({ opacity: 0 });
+          const file = e.dataTransfer.files[0];
+          if (file) props.onFileDropped(file);
         }
       }}
     >
-      <div className="drop-content">
-        {props.children}
-      </div>
+      <div className="drop-content">{props.children}</div>
 
       <animated.div
         className="drop-text-background"
         style={{
           opacity: spring.opacity,
         }}
-      >
-      </animated.div>
+      />
 
       <animated.div
         className="drop-text-content"
