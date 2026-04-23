@@ -47,4 +47,5 @@ jobs:
         run: node scripts/deploy-preview.mjs
 
       - name: Print preview URL
-        run: echo "Preview URL: https://joeyonng.github.io/joeyonng-backyard/previews/${{ steps.preview.outputs.safe_branch }}/"
+        run: |
+          echo "Preview URL: https://joeyonng.github.io/joeyonng-backyard/previews/${{ steps.preview.outputs.safe_branch }}/"
